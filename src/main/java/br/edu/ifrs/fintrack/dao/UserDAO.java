@@ -1,6 +1,5 @@
 package br.edu.ifrs.fintrack.dao;
 
-import br.edu.ifrs.fintrack.database.ConnectionFactory;
 import br.edu.ifrs.fintrack.exception.DataAccessException;
 import br.edu.ifrs.fintrack.exception.DatabaseIntegrityException;
 import br.edu.ifrs.fintrack.exception.EntityNotFoundException;

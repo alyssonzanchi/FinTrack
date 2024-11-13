@@ -1,4 +1,4 @@
-package br.edu.ifrs.fintrack.database;
+package br.edu.ifrs.fintrack.dao;
 
 import br.edu.ifrs.fintrack.exception.DatabaseConnectionException;
 import br.edu.ifrs.fintrack.util.ConfigProperties;
