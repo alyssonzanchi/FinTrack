@@ -1,4 +1,4 @@
-package br.edu.ifrs.fintrack;
+package br.edu.ifrs.fintrack.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
