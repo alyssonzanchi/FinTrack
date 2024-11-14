@@ -1,7 +1,9 @@
 package br.edu.ifrs.fintrack.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -16,21 +18,30 @@ import java.nio.file.StandardCopyOption;
 public class RegisterFrameController {
 
     @FXML
+    private Label lblChangeImage;
+
+    @FXML
     private ImageView profileImageView;
 
     @FXML
-    private Button selectImageButton;
+    private TextField txtEmail;
+
+    @FXML
+    private PasswordField txtPassword;
 
     @FXML
     public void initialize() {
         File file = new File("profile_images/user.png");
         Image defaultImage = new Image(file.toURI().toString());
         profileImageView.setImage(defaultImage);
-
-        selectImageButton.setOnAction(_ -> selectImage());
     }
 
-    public void selectImage() {
+    public void setData(String email, String password) {
+        txtEmail.setText(email);
+        txtPassword.setText(password);
+    }
+
+    public void handleChangeImage(MouseEvent mouseEvent) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Selecione uma Imagem");
 
@@ -38,7 +49,7 @@ public class RegisterFrameController {
                 new FileChooser.ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg")
         );
 
-        File selectedFile = fileChooser.showOpenDialog(selectImageButton.getScene().getWindow());
+        File selectedFile = fileChooser.showOpenDialog(lblChangeImage.getScene().getWindow());
 
         if (selectedFile != null) {
             try {
@@ -54,8 +65,5 @@ public class RegisterFrameController {
                 e.printStackTrace();
             }
         }
-    }
-
-    public void handleChangeImage(MouseEvent mouseEvent) {
     }
 }

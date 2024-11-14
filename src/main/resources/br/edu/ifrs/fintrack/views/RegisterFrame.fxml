@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.PasswordField?>
 
 <AnchorPane prefHeight="472.0" prefWidth="500.0" style="-fx-background-color: #ffffff;"
             xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
@@ -22,7 +23,7 @@
          <VBox.margin>
             <Insets/>
          </VBox.margin>
-         <Label alignment="CENTER" onMouseClicked="#handleChangeImage"
+         <Label fx:id="lblChangeImage" alignment="CENTER" onMouseClicked="#handleChangeImage"
                 style="-fx-text-fill: #333; -fx-font-size: 12px; -fx-underline: true; -fx-cursor: hand;"
                 text="Alterar imagem">
             <graphic>
@@ -33,7 +34,7 @@
             </graphic>
          </Label>
       </HBox>
-      <TextField promptText="E-mail"
+      <TextField fx:id="txtEmail" promptText="E-mail"
                  style="-fx-background-color: #e0e0e0; -fx-background-radius: 30; -fx-border-radius: 30; -fx-border-color: #000000; -fx-prompt-text-fill: #333333; -fx-padding: 10; -fx-max-width: 250;">
          <font>
             <Font size="14.0"/>
@@ -42,7 +43,7 @@
             <Insets top="20.0"/>
          </VBox.margin>
       </TextField>
-      <TextField promptText="Password"
+      <PasswordField fx:id="txtPassword" promptText="Password"
                  style="-fx-background-color: #e0e0e0; -fx-background-radius: 30; -fx-border-radius: 30; -fx-border-color: #000000; -fx-prompt-text-fill: #333333; -fx-padding: 10; -fx-max-width: 250;">
          <font>
             <Font size="14.0"/>
@@ -50,7 +51,7 @@
          <VBox.margin>
             <Insets bottom="5.0" top="5.0"/>
          </VBox.margin>
-      </TextField>
+      </PasswordField>
       <TextField promptText="Nome"
                  style="-fx-background-color: #e0e0e0; -fx-background-radius: 30; -fx-border-radius: 30; -fx-border-color: #000000; -fx-prompt-text-fill: #333333; -fx-padding: 10; -fx-max-width: 250;">
          <font>

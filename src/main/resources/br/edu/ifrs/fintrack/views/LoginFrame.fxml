@@ -35,7 +35,7 @@
                 <Insets />
             </VBox.margin>
         </Separator>
-        <Label fx:id="lblPassword" alignment="TOP_CENTER" text="Esqueceu a senha?">
+        <Label alignment="TOP_CENTER" text="Esqueceu a senha?">
             <VBox.margin>
                 <Insets top="5.0" />
             </VBox.margin>
@@ -46,7 +46,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
         </Label>
-        <Button fx:id="btnLogin" mnemonicParsing="false" style="-fx-background-color: #2d7d46; -fx-text-fill: white; -fx-background-radius: 30; -fx-padding: 10; -fx-pref-width: 250;" text="LOGIN">
+        <Button mnemonicParsing="false" style="-fx-background-color: #2d7d46; -fx-text-fill: white; -fx-background-radius: 30; -fx-padding: 10; -fx-pref-width: 250;" text="LOGIN">
             <VBox.margin>
                 <Insets bottom="5.0" top="5.0" />
             </VBox.margin>
@@ -57,7 +57,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
         </Button>
-        <Button fx:id="btnRegister" mnemonicParsing="false" style="-fx-background-color: #333333; -fx-text-fill: white; -fx-background-radius: 30; -fx-border-radius: 30; -fx-padding: 10; -fx-pref-width: 250;" text="REGISTER">
+        <Button mnemonicParsing="false" onAction="#handleRegister" style="-fx-background-color: #333333; -fx-text-fill: white; -fx-background-radius: 30; -fx-border-radius: 30; -fx-padding: 10; -fx-pref-width: 250;" text="REGISTER">
          <font>
             <Font size="14.0" />
          </font>
