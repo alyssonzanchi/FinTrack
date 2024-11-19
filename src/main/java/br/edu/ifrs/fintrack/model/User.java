@@ -26,7 +26,7 @@ public class User {
         }
 
         this.email = email;
-        this.password = PasswordUtils.hashPassword(password);
+        this.password = password;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.image = image;
@@ -59,7 +59,7 @@ public class User {
         if(password == null || password.length() < 8) {
             throw new InvalidPasswordException("A senha deve ter pelo menos 8 caracteres.");
         }
-        this.password = PasswordUtils.hashPassword(password);
+        this.password = password;
     }
 
     public String getName() {

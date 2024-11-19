@@ -1,9 +1,9 @@
 package br.edu.ifrs.fintrack.dao;
 
 import br.edu.ifrs.fintrack.exception.DataAccessException;
-import br.edu.ifrs.fintrack.exception.DatabaseIntegrityException;
 import br.edu.ifrs.fintrack.exception.EntityNotFoundException;
 import br.edu.ifrs.fintrack.model.User;
+import br.edu.ifrs.fintrack.util.PasswordUtils;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,26 +17,26 @@ public class UserDAO implements DAO<User> {
         try(Connection con = ConnectionFactory.getConnection()) {
             var pstm = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS); // Solicita as chaves geradas
             pstm.setString(1, user.getEmail());
-            pstm.setString(2, user.getPassword());
+            pstm.setString(2, PasswordUtils.hashPassword(user.getPassword()));
             pstm.setString(3, user.getName());
             pstm.setDate(4, java.sql.Date.valueOf(user.getDateOfBirth()));
             pstm.setString(5, user.getImage());
 
             int rowsAffected = pstm.executeUpdate();
             if (rowsAffected == 0) {
-                throw new DataAccessException("Erro ao inserir usuário: nenhum registro foi inserido.");
+                return false;
             }
 
-            // Captura o ID gerado automaticamente
             ResultSet generatedKeys = pstm.getGeneratedKeys();
             if (generatedKeys.next()) {
-                user.setId(generatedKeys.getInt(1)); // Define o ID no objeto User
+                user.setId(generatedKeys.getInt(1));
                 return true;
             } else {
-                throw new DataAccessException("Erro ao inserir usuário: nenhum ID gerado.");
+                return false;
             }
         } catch (SQLException e) {
-            throw new DataAccessException("Erro ao inserir usuário: " + e.getMessage());
+            e.printStackTrace();
+            return false;
         }
     }
 
@@ -50,14 +50,10 @@ public class UserDAO implements DAO<User> {
 
             int rowsAffected = pstm.executeUpdate();
 
-            if (rowsAffected == 0) {
-                throw new EntityNotFoundException("Usuário com id " + id + " não encontrado.");
-            }
-            return true;
-        } catch (SQLIntegrityConstraintViolationException e) {
-            throw new DatabaseIntegrityException("Violação de integridade: não é possível excluir o usuário.");
+            return rowsAffected > 0;
         } catch (SQLException e) {
-            throw new DataAccessException("Erro ao excluir usuário: " + e.getMessage());
+            e.printStackTrace();
+            return false;
         }
     }
 
@@ -76,12 +72,10 @@ public class UserDAO implements DAO<User> {
 
             int rowsAffected = pstm.executeUpdate();
 
-            if (rowsAffected == 0) {
-                throw new EntityNotFoundException("Usuário com id " + user.getId() + " não encontrado.");
-            }
-            return true;
+            return rowsAffected > 0;
         } catch (SQLException e) {
-            throw new DataAccessException("Erro ao atualizar usuário: " + e.getMessage());
+            e.printStackTrace();
+            return false;
         }
     }
 

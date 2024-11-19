@@ -1,13 +1,17 @@
 package br.edu.ifrs.fintrack.controller;
 
 import br.edu.ifrs.fintrack.Main;
+import br.edu.ifrs.fintrack.dao.UserDAO;
+import br.edu.ifrs.fintrack.exception.DatabaseConnectionException;
+import br.edu.ifrs.fintrack.model.User;
 import br.edu.ifrs.fintrack.util.EmailUtils;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
+
+import java.util.List;
+import java.util.Optional;
 
 public class LoginFrameController {
     
@@ -17,26 +21,28 @@ public class LoginFrameController {
     @FXML
     private PasswordField inputPassword;
 
+    private final UserDAO userDAO = new UserDAO();
+
     @FXML
     public void initialize() {}
 
     @FXML
-    void handleRegister(ActionEvent event) {
+    void handleRegister() {
         String email = inputEmail.getText();
         String password = inputPassword.getText();
 
         if(email.isEmpty() || password.isEmpty()) {
-            showAlert("Por favor, preencha todos os campos.");
+            showAlert(Alert.AlertType.INFORMATION, null, "Por favor, preencha todos os campos.");
             return;
         }
 
         if(!EmailUtils.isValidEmail(email)) {
-            showAlert("Este e-mail é inválido");
+            showAlert(Alert.AlertType.INFORMATION, null, "Este e-mail é inválido");
             return;
         }
 
         if(password.length() < 8) {
-            showAlert("A senha deve ter pelo menos 8 caracteres.");
+            showAlert(Alert.AlertType.INFORMATION, null, "A senha deve ter pelo menos 8 caracteres.");
             return;
         }
 
@@ -44,12 +50,41 @@ public class LoginFrameController {
 
     }
 
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Erro");
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
 
+    public void handleLogin() {
+        try {
+            String email = inputEmail.getText();
+            String password = inputPassword.getText();
+
+            List<User> users = userDAO.list(Integer.MAX_VALUE, 0);
+            Optional<User> userOpt = users.stream()
+                    .filter(u -> u.getEmail().equals(email))
+                    .findFirst();
+
+            if (userOpt.isPresent()) {
+                User user = userOpt.get();
+                System.out.println(user);
+                System.out.println(password);
+                if (user.validatePassword(password)) {
+                    showAlert(Alert.AlertType.INFORMATION, "Login realizado", "Usuário autenticado com sucesso!");
+                    Main.loadView("HomeFrame");
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Erro de autenticação", "Email ou senha incorretos.");
+                }
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Erro de autenticação", "Usuário não encontrado.");
+            }
+        } catch (DatabaseConnectionException e) {
+            showAlert(Alert.AlertType.ERROR, "Erro de conexão", "Erro ao conectar com o banco de dados. Tente novamente.");
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Erro inesperado", "Ocorreu um erro inesperado: " + e.getMessage());
+        }
+    }
 }

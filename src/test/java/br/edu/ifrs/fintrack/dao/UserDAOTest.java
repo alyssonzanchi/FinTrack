@@ -61,7 +61,8 @@ public class UserDAOTest {
 
     @Test
     void testDelete_NonExistingUser() {
-        assertThrows(EntityNotFoundException.class, () -> userDAO.delete(999), "Deveria lançar exceção ao tentar deletar usuário inexistente.");
+        boolean result = userDAO.delete(999);
+        assertFalse(result, "A exclusão de um usuário inexistente deveria retornar false.");
     }
 
     @Test
@@ -80,9 +81,10 @@ public class UserDAOTest {
     @Test
     void testUpdate_NonExistingUser() {
         User user = new User("nonexistent@example.com", "strongPassword", "Nonexistent User", LocalDate.of(1990, 1, 1), "image.png");
-        user.setId(999); // Definindo um ID que não existe no banco de dados
+        user.setId(999);
 
-        assertThrows(EntityNotFoundException.class, () -> userDAO.update(user), "Deveria lançar exceção ao tentar atualizar usuário inexistente.");
+        boolean result = userDAO.update(user);
+        assertFalse(result, "A atualização de um usuário inexistente deveria retornar false.");
     }
 
     @Test

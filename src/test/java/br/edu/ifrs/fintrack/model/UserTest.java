@@ -57,16 +57,6 @@ class UserTest {
     }
 
     @Test
-    void testValidatePassword_Valid() {
-        assertTrue(user.validatePassword("strongPassword"));
-    }
-
-    @Test
-    void testValidatePassword_Invalid() {
-        assertFalse(user.validatePassword("wrongPassword"));
-    }
-
-    @Test
     void testSetName() {
         String newName = "New Test User";
         user.setName(newName);

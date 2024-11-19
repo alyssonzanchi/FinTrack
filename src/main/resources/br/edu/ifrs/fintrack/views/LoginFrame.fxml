@@ -46,7 +46,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
         </Label>
-        <Button mnemonicParsing="false" style="-fx-background-color: #2d7d46; -fx-text-fill: white; -fx-background-radius: 30; -fx-padding: 10; -fx-pref-width: 250;" text="LOGIN">
+        <Button mnemonicParsing="false" onAction="#handleLogin" style="-fx-background-color: #2d7d46; -fx-text-fill: white; -fx-background-radius: 30; -fx-padding: 10; -fx-pref-width: 250;" text="LOGIN">
             <VBox.margin>
                 <Insets bottom="5.0" top="5.0" />
             </VBox.margin>
