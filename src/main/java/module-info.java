@@ -7,8 +7,6 @@ module br.edu.ifrs.fintrack {
     requires javafx.graphics;
     requires jbcrypt;
     requires java.sql;
-    requires org.kordamp.ikonli.javafx;
-    requires org.kordamp.ikonli.fontawesome5;
     requires java.desktop;
 
     opens br.edu.ifrs.fintrack.controller to javafx.fxml;

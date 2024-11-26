@@ -62,5 +62,5 @@ As tabelas principais incluem:
 - Java: Linguagem de programação principal.
 - PostgreSQL: Banco de dados relacional.
 - JUnit: Framework para testes unitários.
-- JFrame: Utilizado para criação de Janelas.
+- JavaFX: Utilizado para criação de Janelas.
 - Maven: Gerenciador de dependências.

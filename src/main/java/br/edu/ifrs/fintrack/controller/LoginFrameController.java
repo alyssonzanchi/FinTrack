@@ -5,6 +5,7 @@ import br.edu.ifrs.fintrack.dao.UserDAO;
 import br.edu.ifrs.fintrack.exception.DatabaseConnectionException;
 import br.edu.ifrs.fintrack.model.User;
 import br.edu.ifrs.fintrack.util.EmailUtils;
+import br.edu.ifrs.fintrack.util.Session;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -70,9 +71,8 @@ public class LoginFrameController {
 
             if (userOpt.isPresent()) {
                 User user = userOpt.get();
-                System.out.println(user);
-                System.out.println(password);
                 if (user.validatePassword(password)) {
+                    Session.getInstance().setUserId(user.getId());
                     showAlert(Alert.AlertType.INFORMATION, "Login realizado", "Usuário autenticado com sucesso!");
                     Main.loadView("HomeFrame");
                 } else {

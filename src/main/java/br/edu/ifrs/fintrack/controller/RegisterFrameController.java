@@ -4,6 +4,7 @@ import br.edu.ifrs.fintrack.Main;
 import br.edu.ifrs.fintrack.dao.UserDAO;
 import br.edu.ifrs.fintrack.exception.DatabaseConnectionException;
 import br.edu.ifrs.fintrack.model.User;
+import br.edu.ifrs.fintrack.util.Session;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -14,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 
@@ -94,6 +94,7 @@ public class RegisterFrameController {
             boolean isInserted = userDAO.insert(user);
 
             if (isInserted) {
+                Session.getInstance().setUserId(user.getId());
                 showAlert(Alert.AlertType.INFORMATION, "Cadastro realizado", "Usuário cadastrado com sucesso!");
                 Main.loadView("HomeFrame");
             } else {
