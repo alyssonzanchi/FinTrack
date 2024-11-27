@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 public class Main extends Application {
@@ -16,9 +17,12 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         stage = primaryStage;
+        HashMap<String, Object> data = new HashMap<>();
+        stage.setUserData(data);
         loadView("LoginFrame");
     }
 
+    @SuppressWarnings("CallToPrintStackTrace")
     public static void loadView(String view) {
         String frame = "/br/edu/ifrs/fintrack/views/" + view + ".fxml";
 
@@ -37,6 +41,7 @@ public class Main extends Application {
         }
     }
 
+    @SuppressWarnings("CallToPrintStackTrace")
     public static void loadView(String view, String email, String password) {
         String frame = "/br/edu/ifrs/fintrack/views/" + view + ".fxml";
         Image icon = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("/images/icon.jpeg")));
@@ -59,6 +64,26 @@ public class Main extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static <V> void addData(String key, V value) {
+        if(value != null && key != null) {
+            @SuppressWarnings("unchecked")
+            var data = (HashMap<String,Object>)stage.getUserData();
+            data.put(key, value);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <V> V getData(String key) {
+        var data = (HashMap<String,Object>)stage.getUserData();
+        return (V) data.get(key);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <V> V getAndRemoveData(String key) {
+        var data = (HashMap<String,Object>)stage.getUserData();
+        return (V) data.remove(key);
     }
 
     public static void main(String[] args) {

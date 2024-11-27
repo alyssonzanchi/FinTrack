@@ -17,10 +17,6 @@ public class Account {
             throw new MissingRequiredFieldException("name");
         }
 
-        if(balance == null || balance.compareTo(BigDecimal.ZERO) < 0) {
-            throw new InvalidAccountDataException("O saldo deve ser positivo");
-        }
-
         if(userId <= 0) {
             throw new InvalidAccountDataException("O ID do usuário deve ser maior que zero");
         }
@@ -55,9 +51,6 @@ public class Account {
     }
 
     public void setBalance(BigDecimal balance) {
-        if(balance == null || balance.compareTo(BigDecimal.ZERO) < 0) {
-            throw new InvalidAccountDataException("O saldo deve ser positivo");
-        }
         this.balance = balance;
     }
 
