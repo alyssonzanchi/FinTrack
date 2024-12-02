@@ -136,11 +136,17 @@
                         <font>
                             <Font size="14.0" />
                         </font>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
                     </Button>
                     <Button mnemonicParsing="false" onAction="#handleSaveAccount" prefWidth="100.0" style="-fx-background-color: #4CAF50; -fx-background-radius: 10; -fx-padding: 10;" text="SALVAR" textFill="WHITE">
                         <font>
                             <Font size="14.0" />
                         </font>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
                     </Button>
                 </HBox>
             </VBox>

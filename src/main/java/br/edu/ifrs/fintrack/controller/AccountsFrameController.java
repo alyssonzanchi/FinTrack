@@ -100,7 +100,7 @@ public class AccountsFrameController implements Initializable {
                 if (empty || item == null) {
                     setGraphic(null);
                 } else {
-                    ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/" + item + ".png"))));
+                    ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(item))));
                     imageView.setFitHeight(40);
                     imageView.setFitWidth(40);
                     setGraphic(imageView);

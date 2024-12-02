@@ -66,8 +66,8 @@ public class RegisterAccountFrameController {
                     setText(null);
                 } else {
                     imageView.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(item.getPath()))));
-                    imageView.setFitHeight(16);
-                    imageView.setFitWidth(16);
+                    imageView.setFitHeight(30);
+                    imageView.setFitWidth(30);
 
                     setGraphic(imageView);
                     setText(item.getName());
@@ -86,8 +86,8 @@ public class RegisterAccountFrameController {
                     setText(null);
                 } else {
                     imageView.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(item.getPath()))));
-                    imageView.setFitHeight(16);
-                    imageView.setFitWidth(16);
+                    imageView.setFitHeight(40);
+                    imageView.setFitWidth(40);
 
                     setGraphic(imageView);
                     setText(item.getName());
@@ -131,14 +131,14 @@ public class RegisterAccountFrameController {
 
             Banks selectedBank = this.boxIcon.getValue();
             if (selectedBank != null) {
-                this.account.setIcon(selectedBank.getName());
+                this.account.setIcon(selectedBank.getPath());
             }
 
             accountDAO.update(this.account);
         } else {
             BigDecimal balance = new BigDecimal(this.lblBalance.getText());
             Banks icon = this.boxIcon.getValue();
-            Account acc = new Account(this.lblNameAccount.getText(), balance, icon.getName(), Session.getInstance().getUserId());
+            Account acc = new Account(this.lblNameAccount.getText(), balance, icon.getPath(), Session.getInstance().getUserId());
             accountDAO.insert(acc);
         }
 

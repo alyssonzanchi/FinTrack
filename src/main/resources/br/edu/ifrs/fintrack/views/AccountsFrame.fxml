@@ -105,28 +105,30 @@
                <Insets left="15.0" right="15.0" />
             </padding>
             </TableView>
-            <HBox alignment="CENTER" layoutY="531.0" prefHeight="69.0" prefWidth="503.0" spacing="20.0"
-                  style="-fx-background-color: #ffffff;">
-                <Button mnemonicParsing="false" onAction="#handleNewAccount"
-                        style="-fx-background-color: #4CAF50; -fx-background-radius: 10; -fx-padding: 10;"
-                        text="ADICIONAR" textFill="WHITE">
+            <HBox alignment="CENTER" layoutY="531.0" prefHeight="69.0" prefWidth="503.0" spacing="20.0" style="-fx-background-color: #ffffff;">
+                <Button mnemonicParsing="false" onAction="#handleNewAccount" style="-fx-background-color: #4CAF50; -fx-background-radius: 10; -fx-padding: 10;" text="ADICIONAR" textFill="WHITE">
                     <font>
-                        <Font size="14.0"/>
+                        <Font size="14.0" />
                     </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#handleEditAccount"
-                        style="-fx-background-color: #757575; -fx-background-radius: 10; -fx-padding: 10;"
-                        text="ALTERAR" textFill="WHITE">
+                <Button mnemonicParsing="false" onAction="#handleEditAccount" style="-fx-background-color: #757575; -fx-background-radius: 10; -fx-padding: 10;" text="ALTERAR" textFill="WHITE">
                     <font>
-                        <Font size="14.0"/>
+                        <Font size="14.0" />
                     </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#handleRemoveAccount"
-                        style="-fx-background-color: #F44336; -fx-background-radius: 10; -fx-padding: 10;"
-                        text="REMOVER" textFill="WHITE">
+                <Button mnemonicParsing="false" onAction="#handleRemoveAccount" style="-fx-background-color: #F44336; -fx-background-radius: 10; -fx-padding: 10;" text="REMOVER" textFill="WHITE">
                     <font>
-                        <Font size="14.0"/>
+                        <Font size="14.0" />
                     </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
                 </Button>
             </HBox>
         </AnchorPane>
