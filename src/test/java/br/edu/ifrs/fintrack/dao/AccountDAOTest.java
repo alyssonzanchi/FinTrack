@@ -31,12 +31,12 @@ public class AccountDAOTest {
     void testInsert() {
         Account account = new Account("Nubank", new BigDecimal("1500.00"), "Nubank", 1);
         boolean isInserted = accountDAO.insert(account);
-        assertTrue(isInserted, "O usuário deveria ter sido inserido com sucesso.");
+        assertTrue(isInserted, "A conta deveria ter sido inserida com sucesso.");
     }
 
     @Test
     void testGet_NonExistingAccount() {
-        assertThrows(EntityNotFoundException.class, () -> accountDAO.get(999), "Deveria lançar exceção ao buscar usuário inexistente.");
+        assertThrows(EntityNotFoundException.class, () -> accountDAO.get(999), "Deveria lançar exceção ao buscar conta inexistente.");
     }
 
     @Test
