@@ -68,4 +68,12 @@ INSERT INTO "Categories" (type, name, icon) VALUES
 ('RECEITA', 'Pagamentos', '/images/categories/dolar.png'),
 ('RECEITA', 'Benefícios', '/images/categories/food.png'),
 ('DESPESA', 'Carro', '/images/categories/car.png'),
-('DESPESA', 'Alimentação', '/images/categories/food.png');
+('DESPESA', 'Alimentação', '/images/categories/food.png'),
+('DESPESA', 'Educação', '/images/categories/education.png'),
+('DESPESA', 'Família', '/images/categories/family.png'),
+('DESPESA', 'Lazer', '/images/categories/leisure.png'),
+('DESPESA', 'Moradia', '/images/categories/house.png'),
+('DESPESA', 'Outros', '/images/categories/other.png'),
+('DESPESA', 'Pagamentos', '/images/categories/dolar.png'),
+('DESPESA', 'Saúde', '/images/categories/health.png'),
+('DESPESA', 'Serviços', '/images/categories/services.png');

@@ -138,7 +138,8 @@ public class RegisterAccountFrameController {
         } else {
             BigDecimal balance = new BigDecimal(this.lblBalance.getText());
             Banks icon = this.boxIcon.getValue();
-            Account acc = new Account(this.lblNameAccount.getText(), balance, icon.getPath(), Session.getInstance().getUserId());
+            User user = userDAO.get(Session.getInstance().getUserId());
+            Account acc = new Account(this.lblNameAccount.getText(), balance, icon.getPath(), user);
             accountDAO.insert(acc);
         }
 

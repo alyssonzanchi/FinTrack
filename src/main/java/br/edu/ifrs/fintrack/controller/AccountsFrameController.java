@@ -52,7 +52,7 @@ public class AccountsFrameController implements Initializable {
     public List<Account> listAccountsForUser() {
         List<Account> allAccounts = accountDAO.list(100, 0);
         return allAccounts.stream()
-                .filter(account -> account.getUserId() == Session.getInstance().getUserId())
+                .filter(account -> account.getUser().getId() == Session.getInstance().getUserId())
                 .collect(Collectors.toList());
     }
 

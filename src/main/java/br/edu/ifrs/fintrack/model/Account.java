@@ -10,21 +10,21 @@ public class Account {
     private String name;
     private BigDecimal balance;
     private String icon;
-    private int userId;
+    private User user;
 
-    public Account(String name, BigDecimal balance, String icon, int userId) {
+    public Account(String name, BigDecimal balance, String icon, User user) {
         if(name == null || name.isEmpty()) {
             throw new MissingRequiredFieldException("name");
         }
 
-        if(userId <= 0) {
-            throw new InvalidAccountDataException("O ID do usuário deve ser maior que zero");
+        if(user == null) {
+            throw new InvalidAccountDataException("Usuário não pode ser nulo");
         }
 
         this.name = name;
         this.balance = balance;
-        this.icon = icon != null ? icon : "default";
-        this.userId = userId;
+        this.icon = icon;
+        this.user = user;
     }
 
     public int getId() {
@@ -62,14 +62,14 @@ public class Account {
         this.icon = icon;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        if(userId <= 0) {
-            throw new InvalidAccountDataException("O ID do usuário deve ser maior que zero");
+    public void setUser(User user) {
+        if(user == null) {
+            throw new InvalidAccountDataException("Usuário não pode ser nulo");
         }
-        this.userId = userId;
+        this.user = user;
     }
 }

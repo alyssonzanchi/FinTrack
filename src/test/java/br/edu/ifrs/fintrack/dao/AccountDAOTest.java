@@ -2,12 +2,14 @@ package br.edu.ifrs.fintrack.dao;
 
 import br.edu.ifrs.fintrack.exception.EntityNotFoundException;
 import br.edu.ifrs.fintrack.model.Account;
+import br.edu.ifrs.fintrack.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,21 +17,28 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AccountDAOTest {
     private AccountDAO accountDAO;
+    private UserDAO userDAO;
+    private User testUser;
 
     @BeforeEach
     void setUp() {
         accountDAO = new AccountDAO();
+        userDAO = new UserDAO();
         try (Connection con = ConnectionFactory.getConnection()) {
             Statement stmt = con.createStatement();
-            stmt.execute("TRUNCATE TABLE \"Accounts\" RESTART IDENTITY CASCADE"); // Limpa a tabela antes dos testes
+            stmt.execute("TRUNCATE TABLE \"Accounts\" RESTART IDENTITY CASCADE");
+            stmt.execute("TRUNCATE TABLE \"Users\" RESTART IDENTITY CASCADE");
         } catch (Exception e) {
             throw new RuntimeException("Erro ao configurar o banco de dados para os testes.", e);
         }
+
+        testUser = new User("user@test.com", "password123", "User Teste", LocalDate.of(1990, 1, 1), "image.png");
+        userDAO.insert(testUser);
     }
 
     @Test
     void testInsert() {
-        Account account = new Account("Nubank", new BigDecimal("1500.00"), "Nubank", 1);
+        Account account = new Account("Nubank", new BigDecimal("1500.00"), "Nubank", testUser);
         boolean isInserted = accountDAO.insert(account);
         assertTrue(isInserted, "A conta deveria ter sido inserida com sucesso.");
     }
@@ -41,7 +50,7 @@ public class AccountDAOTest {
 
     @Test
     void testDelete_ExistingAccount() {
-        Account account = new Account("Nubank", new BigDecimal("1500.00"), "Nubank", 1);
+        Account account = new Account("Nubank", new BigDecimal("1500.00"), "Nubank", testUser);
         accountDAO.insert(account);
 
         boolean isDeleted = accountDAO.delete(account.getId());
@@ -57,7 +66,7 @@ public class AccountDAOTest {
 
     @Test
     void testUpdate_ExistingAccount() {
-        Account account = new Account("Nubank", new BigDecimal("1500.00"), "Nubank", 1);
+        Account account = new Account("Nubank", new BigDecimal("1500.00"), "Nubank", testUser);
         accountDAO.insert(account);
 
         account.setName("Sicredi");
@@ -70,7 +79,7 @@ public class AccountDAOTest {
 
     @Test
     void testUpdate_NonExistingAccount() {
-        Account account = new Account("Nubank", new BigDecimal("1500.00"), "Nubank", 1);
+        Account account = new Account("Nubank", new BigDecimal("1500.00"), "Nubank", testUser);
         account.setId(999);
 
         boolean result = accountDAO.update(account);
@@ -79,8 +88,8 @@ public class AccountDAOTest {
 
     @Test
     void testList() {
-        Account account1 = new Account("Nubank", new BigDecimal("1500.00"), "Nubank", 1);
-        Account account2 = new Account("Sicredi", new BigDecimal("2000.00"), "Sicredi", 1);
+        Account account1 = new Account("Nubank", new BigDecimal("1500.00"), "Nubank", testUser);
+        Account account2 = new Account("Sicredi", new BigDecimal("2000.00"), "Sicredi", testUser);
         accountDAO.insert(account1);
         accountDAO.insert(account2);
 

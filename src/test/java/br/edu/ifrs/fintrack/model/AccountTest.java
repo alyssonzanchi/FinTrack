@@ -6,16 +6,19 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class AccountTest {
     private Account account;
+    private User user;
 
     @BeforeEach
     void setUp() {
-        account = new Account("Conta Teste", BigDecimal.valueOf(100), "icon.png", 1);
+        user = new User("user@test.com", "password123", "User Teste", LocalDate.of(1990, 1, 1), "image.png");
+        account = new Account("Conta Teste", BigDecimal.valueOf(100), "icon.png", user);
     }
 
     @Test
@@ -23,35 +26,28 @@ public class AccountTest {
         assertEquals("Conta Teste", account.getName());
         assertEquals(BigDecimal.valueOf(100), account.getBalance());
         assertEquals("icon.png", account.getIcon());
-        assertEquals(1, account.getUserId());
+        assertEquals(user, account.getUser());
     }
 
     @Test
     void testAccountCreationWithNullName() {
         Exception exception = assertThrows(MissingRequiredFieldException.class, () ->
-                new Account(null, BigDecimal.valueOf(100), "icon.png", 1));
+                new Account(null, BigDecimal.valueOf(100), "icon.png", user));
         assertEquals("Campo obrigatório ausente: name", exception.getMessage());
     }
 
     @Test
     void testAccountCreationWithEmptyName() {
         Exception exception = assertThrows(MissingRequiredFieldException.class, () ->
-                new Account("", BigDecimal.valueOf(100), "icon.png", 1));
+                new Account("", BigDecimal.valueOf(100), "icon.png", user));
         assertEquals("Campo obrigatório ausente: name", exception.getMessage());
     }
 
     @Test
-    void testAccountCreationWithNegativeBalance() {
+    void testAccountCreationWithNullUser() {
         Exception exception = assertThrows(InvalidAccountDataException.class, () ->
-                new Account("Conta Teste", BigDecimal.valueOf(-1), "icon.png", 1));
-        assertEquals("Dados inválidos para a criação da conta: O saldo deve ser positivo", exception.getMessage());
-    }
-
-    @Test
-    void testAccountCreationWithInvalidUserId() {
-        Exception exception = assertThrows(InvalidAccountDataException.class, () ->
-                new Account("Conta Teste", BigDecimal.valueOf(100), "icon.png", 0));
-        assertEquals("Dados inválidos para a criação da conta: O ID do usuário deve ser maior que zero", exception.getMessage());
+                new Account("Conta Teste", BigDecimal.valueOf(100), "icon.png", null));
+        assertEquals("Dados inválidos para a criação da conta: Usuário não pode ser nulo", exception.getMessage());
     }
 
     @Test
@@ -79,21 +75,16 @@ public class AccountTest {
     }
 
     @Test
-    void testSetBalanceWithNegativeValue() {
-        Exception exception = assertThrows(InvalidAccountDataException.class, () -> account.setBalance(BigDecimal.valueOf(-10)));
-        assertEquals("Dados inválidos para a criação da conta: O saldo deve ser positivo", exception.getMessage());
+    void testSetUserWithValidData() {
+        User newUser = new User("newuser@test.com", "newpassword123", "New User", LocalDate.of(2000, 8, 12), "user.png");
+        account.setUser(newUser);
+        assertEquals(newUser, account.getUser());
     }
 
     @Test
-    void testSetUserIdWithValidData() {
-        account.setUserId(2);
-        assertEquals(2, account.getUserId());
-    }
-
-    @Test
-    void testSetUserIdWithInvalidValue() {
-        Exception exception = assertThrows(InvalidAccountDataException.class, () -> account.setUserId(0));
-        assertEquals("Dados inválidos para a criação da conta: O ID do usuário deve ser maior que zero", exception.getMessage());
+    void testSetUserWithNullValue() {
+        Exception exception = assertThrows(InvalidAccountDataException.class, () -> account.setUser(null));
+        assertEquals("Dados inválidos para a criação da conta: Usuário não pode ser nulo", exception.getMessage());
     }
 
     @Test

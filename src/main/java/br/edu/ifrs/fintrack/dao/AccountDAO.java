@@ -3,6 +3,7 @@ package br.edu.ifrs.fintrack.dao;
 import br.edu.ifrs.fintrack.exception.DataAccessException;
 import br.edu.ifrs.fintrack.exception.EntityNotFoundException;
 import br.edu.ifrs.fintrack.model.Account;
+import br.edu.ifrs.fintrack.model.User;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AccountDAO implements DAO<Account> {
+
+    private final UserDAO userDAO = new UserDAO();
+
     @Override
     public boolean insert(Account account) {
         String query = "INSERT INTO \"Accounts\" (name, balance, icon, user_id) VALUES (?,?,?,?)";
@@ -21,7 +25,7 @@ public class AccountDAO implements DAO<Account> {
             pstm.setString(1, account.getName());
             pstm.setBigDecimal(2, account.getBalance());
             pstm.setString(3, account.getIcon());
-            pstm.setInt(4, account.getUserId());
+            pstm.setInt(4, account.getUser().getId());
 
             int rowsAffected = pstm.executeUpdate();
             if (rowsAffected == 0) {
@@ -67,7 +71,7 @@ public class AccountDAO implements DAO<Account> {
             pstm.setString(1, account.getName());
             pstm.setBigDecimal(2, account.getBalance());
             pstm.setString(3, account.getIcon());
-            pstm.setInt(4, account.getUserId());
+            pstm.setInt(4, account.getUser().getId());
             pstm.setInt(5, account.getId());
 
             int rowsAffected = pstm.executeUpdate();
@@ -92,11 +96,12 @@ public class AccountDAO implements DAO<Account> {
             ResultSet rs = pstm.executeQuery();
 
             while(rs.next()) {
+                User user = userDAO.get(rs.getInt("user_id"));
                 Account account = new Account(
                         rs.getString("name"),
                         rs.getBigDecimal("balance"),
                         rs.getString("icon"),
-                        rs.getInt("user_id")
+                        user
                 );
                 account.setId(rs.getInt("id"));
 
@@ -120,11 +125,12 @@ public class AccountDAO implements DAO<Account> {
             ResultSet rs = pstm.executeQuery();
 
             if(rs.next()) {
+                User user = userDAO.get(rs.getInt("user_id"));
                 Account account = new Account(
                         rs.getString("name"),
                         rs.getBigDecimal("balance"),
                         rs.getString("icon"),
-                        rs.getInt("user_id")
+                        user
                 );
                 account.setId(rs.getInt("id"));
 
