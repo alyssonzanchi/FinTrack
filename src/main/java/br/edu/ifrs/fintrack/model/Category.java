@@ -2,6 +2,8 @@ package br.edu.ifrs.fintrack.model;
 
 import br.edu.ifrs.fintrack.exception.MissingRequiredFieldException;
 
+import java.util.Objects;
+
 public class Category {
     private int id;
     private String type;
@@ -83,6 +85,19 @@ public class Category {
                 ", name='" + name + '\'' +
                 ", icon='" + icon + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return id == category.id && Objects.equals(type, category.type) && Objects.equals(name, category.name) && Objects.equals(icon, category.icon);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, type, name, icon);
     }
 }
 

@@ -10,7 +10,7 @@ CREATE TABLE "Users" (
     password VARCHAR(60) NOT NULL,
     name VARCHAR(50) NOT NULL,
     date_of_birth DATE,
-    image VARCHAR(100),
+    image VARCHAR(100) DEFAULT '/images/profile_images/user.png',
     CONSTRAINT "user_pk" PRIMARY KEY (id),
     CONSTRAINT "unique_email" UNIQUE (email)
 );
@@ -63,3 +63,9 @@ CREATE TABLE "Transactions" (
     CONSTRAINT "fk_transactions_account_id_accounts" FOREIGN KEY (account_id) REFERENCES "Accounts"(id) ON DELETE NO ACTION ON UPDATE CASCADE,
     CONSTRAINT "fk_transactions_category_id_categories" FOREIGN KEY (category_id) REFERENCES "Categories"(id) ON DELETE SET NULL ON UPDATE CASCADE
 );
+
+INSERT INTO "Categories" (type, name, icon) VALUES
+('RECEITA', 'Pagamentos', '/images/categories/dolar.png'),
+('RECEITA', 'Benefícios', '/images/categories/food.png'),
+('DESPESA', 'Carro', '/images/categories/car.png'),
+('DESPESA', 'Alimentação', '/images/categories/food.png');
