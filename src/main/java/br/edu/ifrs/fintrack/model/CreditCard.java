@@ -12,10 +12,10 @@ public class CreditCard {
     private BigDecimal limit;
     private int closing;
     private int payment;
-    private int userId;
-    private int accountId;
+    private User user;
+    private Account account;
 
-    public CreditCard(String name, BigDecimal limit, int closing, int payment, int userId, int accountId, String icon) {
+    public CreditCard(String name, BigDecimal limit, int closing, int payment, User user, Account account, String icon) {
         if (name == null || name.isEmpty()) {
             throw new MissingCreditCardFieldException("name");
         }
@@ -32,21 +32,21 @@ public class CreditCard {
             throw new InvalidCreditCardDataException("O dia de pagamento deve estar entre 1 e 31.");
         }
 
-        if (userId <= 0) {
-            throw new InvalidCreditCardDataException("O ID do usuário deve ser maior que zero.");
+        if (user == null) {
+            throw new InvalidCreditCardDataException("O usuário não pode ser nulo.");
         }
 
-        if (accountId <= 0) {
-            throw new InvalidCreditCardDataException("O ID da conta deve ser maior que zero.");
+        if (account == null) {
+            throw new InvalidCreditCardDataException("A conta não pode ser nula.");
         }
 
         this.name = name;
         this.limit = limit;
         this.closing = closing;
         this.payment = payment;
-        this.userId = userId;
-        this.accountId = accountId;
-        this.icon = icon != null ? icon : "default";
+        this.user = user;
+        this.account = account;
+        this.icon = icon;
     }
 
     public int getId() {
@@ -109,25 +109,25 @@ public class CreditCard {
         this.payment = payment;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        if (userId <= 0) {
-            throw new InvalidCreditCardDataException("O ID do usuário deve ser maior que zero.");
+    public void setUser(User user) {
+        if (user == null) {
+            throw new InvalidCreditCardDataException("O usuário não pode ser nulo.");
         }
-        this.userId = userId;
+        this.user = user;
     }
 
-    public int getAccountId() {
-        return accountId;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setAccountId(int accountId) {
-        if (accountId <= 0) {
-            throw new InvalidCreditCardDataException("O ID da conta deve ser maior que zero.");
+    public void setAccount(Account account) {
+        if (account == null) {
+            throw new InvalidCreditCardDataException("A conta não pode ser nula");
         }
-        this.accountId = accountId;
+        this.account = account;
     }
 }
