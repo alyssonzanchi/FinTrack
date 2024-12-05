@@ -79,7 +79,7 @@
                      <Cursor fx:constant="HAND" />
                   </cursor>
                   <ImageView fx:id="profileImageView" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                     <Image url="@../../../../../../../../profile_images/user.png" />
+                     <Image url="@../../../../../images/profile_images/user.png" />
                   </ImageView>
                   <VBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="215.0" spacing="5.0">
                      <HBox.margin>

@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class RegisterFrameController {
 
@@ -42,8 +43,8 @@ public class RegisterFrameController {
 
     @FXML
     public void initialize() {
-        File file = new File("profile_images/user.png");
-        Image defaultImage = new Image(file.toURI().toString());
+        String path = Objects.requireNonNull(getClass().getResource("/images/profile_images/user.png")).toExternalForm();
+        Image defaultImage = new Image(path);
         profileImageView.setImage(defaultImage);
     }
 
@@ -64,7 +65,7 @@ public class RegisterFrameController {
 
         if (selectedFile != null) {
             try {
-                File targetDirectory = new File("profile_images");
+                File targetDirectory = new File("src/main/resources/images/profile_images");
 
                 Path targetPath = Path.of(targetDirectory.getAbsolutePath(), selectedFile.getName());
                 Files.copy(selectedFile.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING);
@@ -85,11 +86,9 @@ public class RegisterFrameController {
             String name = txtName.getText();
             LocalDate dateOfBirth = Birthday.getValue();
             String fullPath = profileImageView.getImage().getUrl();
-            String image = fullPath.substring(fullPath.lastIndexOf("/") + 1);
+            String image = fullPath.substring(fullPath.indexOf("/images"));
 
             User user = new User(email, password, name, dateOfBirth, image);
-
-            System.out.println(user.getPassword());
 
             boolean isInserted = userDAO.insert(user);
 

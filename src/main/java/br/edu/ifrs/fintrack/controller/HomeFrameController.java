@@ -6,7 +6,10 @@ import br.edu.ifrs.fintrack.model.User;
 import br.edu.ifrs.fintrack.util.Session;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.util.Objects;
 
 public class HomeFrameController {
     @FXML
@@ -24,8 +27,8 @@ public class HomeFrameController {
     public void initialize() {
         int userId = Session.getInstance().getUserId();
         User user = userDAO.get(userId);
-//        Image profileImage = new Image(user.getImage());
-//        profileImageView.setImage(profileImage);
+        Image profileImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(user.getImage())));
+        profileImageView.setImage(profileImage);
         lblName.setText(user.getName());
         lblEmail.setText(user.getEmail());
     }

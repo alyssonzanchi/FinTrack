@@ -29,7 +29,7 @@
             <graphic>
                <ImageView fx:id="profileImageView" fitHeight="80" fitWidth="80" pickOnBounds="true"
                           preserveRatio="true">
-                  <Image url="@../../../../../../../../profile_images/user.png"/>
+                  <Image url="@../../../../../images/profile_images/user.png"/>
                </ImageView>
             </graphic>
          </Label>

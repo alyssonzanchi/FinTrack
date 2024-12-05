@@ -48,8 +48,8 @@ public class RegisterAccountFrameController {
     public void initialize() {
         int userId = Session.getInstance().getUserId();
         User user = userDAO.get(userId);
-//        Image profileImage = new Image(user.getImage());
-//        profileImageView.setImage(profileImage);
+        Image profileImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(user.getImage())));
+        profileImageView.setImage(profileImage);
         lblName.setText(user.getName());
         lblEmail.setText(user.getEmail());
 
