@@ -67,6 +67,12 @@ CREATE TABLE "Transactions" (
 INSERT INTO "Categories" (type, name, icon) VALUES
 ('RECEITA', 'Pagamentos', '/images/categories/dolar.png'),
 ('RECEITA', 'Benefícios', '/images/categories/food.png'),
+('RECEITA', 'Fixa Mensal', '/images/categories/note.png'),
+('RECEITA', 'Outros', '/images/categories/other.png'),
+('RECEITA', 'Comissão', '/images/categories/percent.png'),
+('RECEITA', 'Rendimentos', '/images/categories/bank.png'),
+('RECEITA', 'Serviços', '/images/categories/tool.png'),
+('RECEITA', 'Vendas', '/images/categories/store.png'),
 ('DESPESA', 'Carro', '/images/categories/car.png'),
 ('DESPESA', 'Alimentação', '/images/categories/food.png'),
 ('DESPESA', 'Educação', '/images/categories/education.png'),
@@ -76,4 +82,6 @@ INSERT INTO "Categories" (type, name, icon) VALUES
 ('DESPESA', 'Outros', '/images/categories/other.png'),
 ('DESPESA', 'Pagamentos', '/images/categories/dolar.png'),
 ('DESPESA', 'Saúde', '/images/categories/health.png'),
-('DESPESA', 'Serviços', '/images/categories/services.png');
+('DESPESA', 'Serviços', '/images/categories/note.png'),
+('DESPESA', 'Transporte', '/images/categories/bus.png'),
+('DESPESA', 'Vestuário', '/images/categories/hanger.png');

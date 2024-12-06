@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifrs.fintrack.controller.RegisterAccountFrameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifrs.fintrack.controller.RegisterCategoryFrameController">
     <SplitPane dividerPositions="0.3659147869674185" prefHeight="600.0" prefWidth="800.0">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
             <VBox prefHeight="527.0" prefWidth="289.0" spacing="16.0" style="-fx-background-color: #2E7D32;">
@@ -136,17 +136,17 @@
                         <font>
                             <Font size="14.0" />
                         </font>
-                  <cursor>
-                     <Cursor fx:constant="HAND" />
-                  </cursor>
+                        <cursor>
+                            <Cursor fx:constant="HAND" />
+                        </cursor>
                     </Button>
-                    <Button mnemonicParsing="false" onAction="#handleSaveAccount" prefWidth="100.0" style="-fx-background-color: #4CAF50; -fx-background-radius: 10; -fx-padding: 10;" text="SALVAR" textFill="WHITE">
+                    <Button mnemonicParsing="false" onAction="#handleSaveCategory" prefWidth="100.0" style="-fx-background-color: #4CAF50; -fx-background-radius: 10; -fx-padding: 10;" text="SALVAR" textFill="WHITE">
                         <font>
                             <Font size="14.0" />
                         </font>
-                  <cursor>
-                     <Cursor fx:constant="HAND" />
-                  </cursor>
+                        <cursor>
+                            <Cursor fx:constant="HAND" />
+                        </cursor>
                     </Button>
                 </HBox>
             </VBox>
