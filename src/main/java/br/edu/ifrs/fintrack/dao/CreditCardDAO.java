@@ -20,7 +20,7 @@ public class CreditCardDAO implements DAO<CreditCard> {
 
     @Override
     public boolean insert(CreditCard creditCard) {
-        String query = "INSERT INTO \"CreditCard\" (name, icon, limit, closing, payment, user_id, account_id) VALUES (?,?,?,?,?,?,?)";
+        String query = "INSERT INTO \"CreditCard\" (name, icon, \"limit\", closing, payment, user_id, account_id) VALUES (?,?,?,?,?,?,?)";
 
         try(Connection con = ConnectionFactory.getConnection()) {
             var pstm = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -69,7 +69,7 @@ public class CreditCardDAO implements DAO<CreditCard> {
 
     @Override
     public boolean update(CreditCard creditCard) {
-        String query = "UPDATE \"CreditCard\" SET name = ?, icon = ?, limit = ?, closing = ?, payment = ?, user_id = ?, account_id = ? WHERE id = ?";
+        String query = "UPDATE \"CreditCard\" SET name = ?, icon = ?, \"limit\" = ?, closing = ?, payment = ?, user_id = ?, account_id = ? WHERE id = ?";
 
         try(Connection con = ConnectionFactory.getConnection()) {
             var pstm = con.prepareStatement(query);
@@ -109,12 +109,12 @@ public class CreditCardDAO implements DAO<CreditCard> {
 
                 CreditCard creditCard = new CreditCard(
                         rs.getString("name"),
+                        rs.getString("icon"),
                         rs.getBigDecimal("limit"),
                         rs.getInt("closing"),
                         rs.getInt("payment"),
                         user,
-                        account,
-                        rs.getString("icon")
+                        account
                 );
                 creditCard.setId(rs.getInt("id"));
 
@@ -142,12 +142,12 @@ public class CreditCardDAO implements DAO<CreditCard> {
                 Account account = accountDAO.get(rs.getInt("account_id"));
                 CreditCard creditCard = new CreditCard(
                         rs.getString("name"),
+                        rs.getString("icon"),
                         rs.getBigDecimal("limit"),
                         rs.getInt("closing"),
                         rs.getInt("payment"),
                         user,
-                        account,
-                        rs.getString("icon")
+                        account
                 );
                 creditCard.setId(rs.getInt("id"));
 

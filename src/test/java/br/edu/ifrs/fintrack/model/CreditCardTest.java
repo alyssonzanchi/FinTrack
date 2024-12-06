@@ -20,7 +20,7 @@ public class  CreditCardTest {
     void setUp() {
         user = new User("user@test.com", "password123", "User Teste", LocalDate.of(1990, 1, 1), "image.png");
         account = new Account("Conta Teste", BigDecimal.valueOf(100), "icon.png", user);
-        creditCard = new CreditCard("Cartão Teste", BigDecimal.valueOf(5000), 10, 20, user, account, "icon.png");
+        creditCard = new CreditCard("Cartão Teste", "icon.png", BigDecimal.valueOf(5000), 10, 20, user, account);
     }
 
     @Test
@@ -37,49 +37,49 @@ public class  CreditCardTest {
     @Test
     void testCreditCardCreationWithNullName() {
         Exception exception = assertThrows(MissingCreditCardFieldException.class, () ->
-                new CreditCard(null, BigDecimal.valueOf(5000), 10, 20, user, account, "icon.png"));
+                new CreditCard(null, "icon.png", BigDecimal.valueOf(5000), 10, 20, user, account));
         assertEquals("Campo obrigatório ausente: name", exception.getMessage());
     }
 
     @Test
     void testCreditCardCreationWithEmptyName() {
         Exception exception = assertThrows(MissingCreditCardFieldException.class, () ->
-                new CreditCard("", BigDecimal.valueOf(5000), 10, 20, user, account, "icon.png"));
+                new CreditCard("", "icon.png", BigDecimal.valueOf(5000), 10, 20, user, account));
         assertEquals("Campo obrigatório ausente: name", exception.getMessage());
     }
 
     @Test
     void testCreditCardCreationWithNegativeLimit() {
         Exception exception = assertThrows(InvalidCreditCardDataException.class, () ->
-                new CreditCard("Cartão Teste", BigDecimal.valueOf(-500), 10, 20, user, account, "icon.png"));
+                new CreditCard("Cartão Teste", "icon.png", BigDecimal.valueOf(-500), 10, 20, user, account));
         assertEquals("Dados inválidos para criação do cartão de crédito: O limite deve ser maior que zero.", exception.getMessage());
     }
 
     @Test
     void testCreditCardCreationWithInvalidClosingDay() {
         Exception exception = assertThrows(InvalidCreditCardDataException.class, () ->
-                new CreditCard("Cartão Teste", BigDecimal.valueOf(5000), 0, 20, user, account, "icon.png"));
+                new CreditCard("Cartão Teste", "icon.png", BigDecimal.valueOf(5000), 0, 20, user, account));
         assertEquals("Dados inválidos para criação do cartão de crédito: O dia de fechamento deve estar entre 1 e 31.", exception.getMessage());
     }
 
     @Test
     void testCreditCardCreationWithInvalidPaymentDay() {
         Exception exception = assertThrows(InvalidCreditCardDataException.class, () ->
-                new CreditCard("Cartão Teste", BigDecimal.valueOf(5000), 10, 32, user, account, "icon.png"));
+                new CreditCard("Cartão Teste", "icon.png", BigDecimal.valueOf(5000), 10, 32, user, account));
         assertEquals("Dados inválidos para criação do cartão de crédito: O dia de pagamento deve estar entre 1 e 31.", exception.getMessage());
     }
 
     @Test
     void testCreditCardCreationWithNullUser() {
         Exception exception = assertThrows(InvalidCreditCardDataException.class, () ->
-                new CreditCard("Cartão Teste", BigDecimal.valueOf(5000), 10, 20, null, account, "icon.png"));
+                new CreditCard("Cartão Teste", "icon.png", BigDecimal.valueOf(5000), 10, 20, null, account));
         assertEquals("Dados inválidos para criação do cartão de crédito: O usuário não pode ser nulo.", exception.getMessage());
     }
 
     @Test
     void testCreditCardCreationWithNullAccount() {
         Exception exception = assertThrows(InvalidCreditCardDataException.class, () ->
-                new CreditCard("Cartão Teste", BigDecimal.valueOf(5000), 10, 20, user, null, "icon.png"));
+                new CreditCard("Cartão Teste", "icon.png", BigDecimal.valueOf(5000), 10, 20, user, null));
         assertEquals("Dados inválidos para criação do cartão de crédito: A conta não pode ser nula.", exception.getMessage());
     }
 

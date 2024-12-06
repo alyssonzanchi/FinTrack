@@ -15,7 +15,7 @@ public class CreditCard {
     private User user;
     private Account account;
 
-    public CreditCard(String name, BigDecimal limit, int closing, int payment, User user, Account account, String icon) {
+    public CreditCard(String name, String icon, BigDecimal limit, int closing, int payment, User user, Account account) {
         if (name == null || name.isEmpty()) {
             throw new MissingCreditCardFieldException("name");
         }
