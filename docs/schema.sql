@@ -61,6 +61,7 @@ CREATE TABLE "Categories" (
 
 CREATE TABLE "Transactions" (
     id SERIAL,
+    name VARCHAR(100) NOT NULL,
     type VARCHAR(15) NOT NULL CHECK (type IN ('RECEITA', 'DESPESA')),
     amount DECIMAL(10, 2) NOT NULL,
     "date" DATE NOT NULL,

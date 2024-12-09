@@ -20,9 +20,6 @@ public class CreditCardDAO implements DAO<CreditCard> {
 
     @Override
     public boolean insert(CreditCard creditCard) {
-        if (!creditCard.isValid()) {
-            throw new DataAccessException("Dados inválidos para o cartão de crédito.");
-        }
 
         String query = "INSERT INTO \"CreditCard\" (name, icon, \"limit\", closing, payment, user_id, account_id) VALUES (?,?,?,?,?,?,?)";
 

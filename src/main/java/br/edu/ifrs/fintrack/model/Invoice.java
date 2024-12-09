@@ -19,8 +19,14 @@ public class Invoice {
         if (creditCard == null) {
             throw new MissingInvoiceFieldException("creditCard");
         }
-        if (startDate == null || endDate == null || dueDate == null) {
-            throw new MissingInvoiceFieldException("As datas");
+        if (startDate == null) {
+            throw new MissingInvoiceFieldException("startDate");
+        }
+        if (endDate == null) {
+            throw new MissingInvoiceFieldException("endDate");
+        }
+        if (dueDate == null) {
+            throw new MissingInvoiceFieldException("dueDate");
         }
         if (endDate.isBefore(startDate)) {
             throw new InvalidInvoiceDataException("A data de término não pode ser antes da data de início.");
