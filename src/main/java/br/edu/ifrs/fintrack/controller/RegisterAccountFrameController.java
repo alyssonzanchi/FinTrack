@@ -2,11 +2,10 @@ package br.edu.ifrs.fintrack.controller;
 
 import br.edu.ifrs.fintrack.Main;
 import br.edu.ifrs.fintrack.dao.AccountDAO;
-import br.edu.ifrs.fintrack.dao.UserDAO;
 import br.edu.ifrs.fintrack.model.Account;
 import br.edu.ifrs.fintrack.model.Banks;
 import br.edu.ifrs.fintrack.model.User;
-import br.edu.ifrs.fintrack.util.Session;
+import br.edu.ifrs.fintrack.util.LoggedUser;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -38,16 +37,13 @@ public class RegisterAccountFrameController {
     @FXML
     private ImageView profileImageView;
 
-    private final UserDAO userDAO = new UserDAO();
-
     private final AccountDAO accountDAO = new AccountDAO();
 
     private Account account;
 
     @FXML
     public void initialize() {
-        int userId = Session.getInstance().getUserId();
-        User user = userDAO.get(userId);
+        User user = LoggedUser.getUser();
         Image profileImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(user.getImage())));
         profileImageView.setImage(profileImage);
         lblName.setText(user.getName());
@@ -138,7 +134,7 @@ public class RegisterAccountFrameController {
         } else {
             BigDecimal balance = new BigDecimal(this.lblBalance.getText());
             Banks icon = this.boxIcon.getValue();
-            User user = userDAO.get(Session.getInstance().getUserId());
+            User user = LoggedUser.getUser();
             Account acc = new Account(this.lblNameAccount.getText(), balance, icon.getPath(), user);
             accountDAO.insert(acc);
         }

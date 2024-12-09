@@ -18,6 +18,7 @@ public class Transaction {
     private String fixedFrequency;
     private String installmentFrequency;
     private Integer installmentCount;
+    private User user;
     private Category category;
     private Account account;
     private CreditCard creditCard;
@@ -33,6 +34,7 @@ public class Transaction {
             String fixedFrequency,
             String installmentFrequency,
             Integer installmentCount,
+            User user,
             Category category,
             Account account,
             CreditCard creditCard,
@@ -62,6 +64,7 @@ public class Transaction {
         this.fixedFrequency = fixedFrequency;
         this.installmentFrequency = installmentFrequency;
         this.installmentCount = installmentCount;
+        this.user = user;
         this.category = category;
         this.account = account;
         this.creditCard = creditCard;
@@ -193,6 +196,14 @@ public class Transaction {
 
     public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

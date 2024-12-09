@@ -1,23 +1,19 @@
 package br.edu.ifrs.fintrack.util;
 
-public class Session {
-    private static Session instance;
-    private int userId;
+import br.edu.ifrs.fintrack.model.User;
 
-    private Session() {}
+public class LoggedUser {
+    private static User user;
 
-    public static Session getInstance() {
-        if (instance == null) {
-            instance = new Session();
-        }
-        return instance;
+    public static User getUser() {
+        return user;
     }
 
-    public int getUserId() {
-        return userId;
+    public static void setUser(User user) {
+        LoggedUser.user = user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public static void clear() {
+        user = null;
     }
 }

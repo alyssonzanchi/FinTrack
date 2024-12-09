@@ -95,7 +95,7 @@
             </Button>
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="519.0">
-            <TableView fx:id="tblList" focusTraversable="false" prefHeight="533.0" prefWidth="503.0">
+            <TableView fx:id="tblList" focusTraversable="false" prefHeight="533.0" prefWidth="503.0" style="-fx-background-color: #ffffff;">
                 <columns>
                     <TableColumn fx:id="clmIcon" editable="false" prefWidth="55.0" resizable="false" sortable="false" style="-fx-padding: 0; -fx-background-color: #ffffff; -fx-border-width: 0;" />
                     <TableColumn fx:id="clmName" editable="false" prefWidth="248.0" resizable="false" sortable="false" style="-fx-padding: 0; -fx-background-color: #ffffff; -fx-border-width: 0;" />

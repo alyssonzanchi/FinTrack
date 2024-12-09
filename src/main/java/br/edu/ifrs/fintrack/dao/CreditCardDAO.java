@@ -160,4 +160,39 @@ public class CreditCardDAO implements DAO<CreditCard> {
             throw new DataAccessException("Erro ao buscar cartão de crédito: " + e.getMessage());
         }
     }
+
+    public List<CreditCard> listByUser(int userId) {
+        String query = "SELECT * FROM \"CreditCard\" WHERE user_id = ?";
+        List<CreditCard> creditCards = new ArrayList<>();
+
+        try (Connection con = ConnectionFactory.getConnection()) {
+            var pstm = con.prepareStatement(query);
+            pstm.setInt(1, userId);
+
+            ResultSet rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                User user = userDAO.get(rs.getInt("user_id"));
+                Account account = accountDAO.get(rs.getInt("account_id"));
+
+                CreditCard creditCard = new CreditCard(
+                        rs.getString("name"),
+                        rs.getString("icon"),
+                        rs.getBigDecimal("limit"),
+                        rs.getInt("closing"),
+                        rs.getInt("payment"),
+                        user,
+                        account
+                );
+                creditCard.setId(rs.getInt("id"));
+
+                creditCards.add(creditCard);
+            }
+
+            return creditCards;
+        } catch (SQLException e) {
+            throw new DataAccessException("Erro ao listar cartões de crédito para o usuário com id " + userId + ": " + e.getMessage());
+        }
+    }
+
 }

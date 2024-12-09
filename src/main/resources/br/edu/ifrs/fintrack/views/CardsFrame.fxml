@@ -6,6 +6,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -92,6 +94,51 @@
                 </graphic>
             </Button>
         </AnchorPane>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="519.0" />
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="519.0">
+            <TableView fx:id="tblList" focusTraversable="false" prefHeight="527.0" prefWidth="503.0"
+                       style="-fx-background-color: #ffffff;">
+                <columns>
+                    <TableColumn fx:id="clmIcon" editable="false" prefWidth="55.0" resizable="false" sortable="false"
+                                 style="-fx-padding: 0; -fx-background-color: #ffffff; -fx-border-width: 0;"/>
+                    <TableColumn fx:id="clmName" editable="false" prefWidth="277.0" resizable="false" sortable="false"
+                                 style="-fx-padding: 0; -fx-background-color: #ffffff; -fx-border-width: 0;"/>
+                    <TableColumn fx:id="clmLimit" editable="false" prefWidth="170.0" resizable="false" sortable="false"
+                                 style="-fx-padding: 0; -fx-background-color: #ffffff; -fx-border-width: 0;"/>
+                </columns>
+            </TableView>
+            <HBox alignment="CENTER" layoutY="523.0" prefHeight="75.0" prefWidth="503.0" spacing="20.0"
+                  style="-fx-background-color: #ffffff;">
+                <Button mnemonicParsing="false" onAction="#handleNewCard"
+                        style="-fx-background-color: #4CAF50; -fx-background-radius: 10; -fx-padding: 10;"
+                        text="ADICIONAR" textFill="WHITE">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND"/>
+                    </cursor>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#handleEditCard"
+                        style="-fx-background-color: #757575; -fx-background-radius: 10; -fx-padding: 10;"
+                        text="ALTERAR" textFill="WHITE">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND"/>
+                    </cursor>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#handleRemoveCard"
+                        style="-fx-background-color: #F44336; -fx-background-radius: 10; -fx-padding: 10;"
+                        text="REMOVER" textFill="WHITE">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND"/>
+                    </cursor>
+                </Button>
+            </HBox>
+        </AnchorPane>
     </SplitPane>
 </AnchorPane>

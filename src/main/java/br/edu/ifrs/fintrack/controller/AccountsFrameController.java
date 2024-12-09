@@ -2,10 +2,9 @@ package br.edu.ifrs.fintrack.controller;
 
 import br.edu.ifrs.fintrack.Main;
 import br.edu.ifrs.fintrack.dao.AccountDAO;
-import br.edu.ifrs.fintrack.dao.UserDAO;
 import br.edu.ifrs.fintrack.model.Account;
 import br.edu.ifrs.fintrack.model.User;
-import br.edu.ifrs.fintrack.util.Session;
+import br.edu.ifrs.fintrack.util.LoggedUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,10 +16,8 @@ import javafx.scene.image.ImageView;
 
 import java.math.BigDecimal;
 import java.net.URL;
-import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class AccountsFrameController implements Initializable {
 
@@ -45,26 +42,16 @@ public class AccountsFrameController implements Initializable {
     @FXML
     private ImageView profileImageView;
 
-    private final UserDAO userDAO = new UserDAO();
-
     private final AccountDAO accountDAO = new AccountDAO();
 
-    public List<Account> listAccountsForUser() {
-        List<Account> allAccounts = accountDAO.list(100, 0);
-        return allAccounts.stream()
-                .filter(account -> account.getUser().getId() == Session.getInstance().getUserId())
-                .collect(Collectors.toList());
-    }
-
     private void loadTable() {
-        ObservableList<Account> accounts = FXCollections.observableArrayList(listAccountsForUser());
+        ObservableList<Account> accounts = FXCollections.observableArrayList(accountDAO.listByUser(LoggedUser.getUser().getId()));
         this.tblList.setItems(accounts);
     }
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-        int userId = Session.getInstance().getUserId();
-        User user = userDAO.get(userId);
+        User user = LoggedUser.getUser();
         Image profileImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(user.getImage())));
         profileImageView.setImage(profileImage);
         lblName.setText(user.getName());

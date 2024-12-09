@@ -2,10 +2,9 @@ package br.edu.ifrs.fintrack.controller;
 
 import br.edu.ifrs.fintrack.Main;
 import br.edu.ifrs.fintrack.dao.CategoryDAO;
-import br.edu.ifrs.fintrack.dao.UserDAO;
 import br.edu.ifrs.fintrack.model.Category;
 import br.edu.ifrs.fintrack.model.User;
-import br.edu.ifrs.fintrack.util.Session;
+import br.edu.ifrs.fintrack.util.LoggedUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -46,8 +45,6 @@ public class CategoriesFrameController {
     @FXML
     private TableColumn<Category, String> clmNameReceipts;
 
-    private final UserDAO userDAO = new UserDAO();
-
     private final CategoryDAO categoryDAO = new CategoryDAO();
 
     public List<Category> listCategoriesReceipts() {
@@ -73,8 +70,7 @@ public class CategoriesFrameController {
 
     @FXML
     public void initialize() {
-        int userId = Session.getInstance().getUserId();
-        User user = userDAO.get(userId);
+        User user = LoggedUser.getUser();
         Image profileImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(user.getImage())));
         profileImageView.setImage(profileImage);
         lblName.setText(user.getName());

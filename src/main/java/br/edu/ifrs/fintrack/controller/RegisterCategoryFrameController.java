@@ -1,9 +1,8 @@
 package br.edu.ifrs.fintrack.controller;
 
 import br.edu.ifrs.fintrack.Main;
-import br.edu.ifrs.fintrack.dao.UserDAO;
 import br.edu.ifrs.fintrack.model.User;
-import br.edu.ifrs.fintrack.util.Session;
+import br.edu.ifrs.fintrack.util.LoggedUser;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -22,12 +21,9 @@ public class RegisterCategoryFrameController {
     @FXML
     private ImageView profileImageView;
 
-    private final UserDAO userDAO = new UserDAO();
-
     @FXML
     public void initialize() {
-        int userId = Session.getInstance().getUserId();
-        User user = userDAO.get(userId);
+        User user = LoggedUser.getUser();
         Image profileImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(user.getImage())));
         profileImageView.setImage(profileImage);
         lblName.setText(user.getName());
@@ -54,10 +50,10 @@ public class RegisterCategoryFrameController {
         Main.loadView("TransactionsFrame");
     }
 
-    public void handleBackPage(ActionEvent actionEvent) {
+    public void handleBackPage() {
     }
 
-    public void handleSaveCategory(ActionEvent actionEvent) {
+    public void handleSaveCategory() {
 
     }
 }

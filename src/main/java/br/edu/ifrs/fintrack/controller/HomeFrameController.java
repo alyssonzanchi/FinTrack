@@ -1,9 +1,8 @@
 package br.edu.ifrs.fintrack.controller;
 
 import br.edu.ifrs.fintrack.Main;
-import br.edu.ifrs.fintrack.dao.UserDAO;
 import br.edu.ifrs.fintrack.model.User;
-import br.edu.ifrs.fintrack.util.Session;
+import br.edu.ifrs.fintrack.util.LoggedUser;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -21,12 +20,9 @@ public class HomeFrameController {
     @FXML
     private ImageView profileImageView;
 
-    private final UserDAO userDAO = new UserDAO();
-
     @FXML
     public void initialize() {
-        int userId = Session.getInstance().getUserId();
-        User user = userDAO.get(userId);
+        User user = LoggedUser.getUser();
         Image profileImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(user.getImage())));
         profileImageView.setImage(profileImage);
         lblName.setText(user.getName());

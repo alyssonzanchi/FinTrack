@@ -142,4 +142,35 @@ public class AccountDAO implements DAO<Account> {
             throw new DataAccessException("Erro ao buscar conta: " + e.getMessage());
         }
     }
+
+    public List<Account> listByUser(int userId) {
+        String query = "SELECT DISTINCT a.* FROM \"Account\" a " +
+                "JOIN \"CreditCard\" cc ON a.id = cc.account_id " +
+                "WHERE cc.user_id = ?";
+        List<Account> accounts = new ArrayList<>();
+
+        try (Connection con = ConnectionFactory.getConnection()) {
+            var pstm = con.prepareStatement(query);
+            pstm.setInt(1, userId);
+
+            ResultSet rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                User user = userDAO.get(rs.getInt("user_id"));
+                Account account = new Account(
+                        rs.getString("name"),
+                        rs.getBigDecimal("balance"),
+                        rs.getString("icon"),
+                        user
+                );
+                account.setId(rs.getInt("id"));
+                accounts.add(account);
+            }
+
+            return accounts;
+        } catch (SQLException e) {
+            throw new DataAccessException("Erro ao listar contas do usuário com ID " + userId + ": " + e.getMessage());
+        }
+    }
+
 }
