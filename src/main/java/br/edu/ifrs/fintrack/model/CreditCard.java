@@ -4,6 +4,7 @@ import br.edu.ifrs.fintrack.exception.InvalidCreditCardDataException;
 import br.edu.ifrs.fintrack.exception.MissingCreditCardFieldException;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class CreditCard {
     private int id;
@@ -14,6 +15,7 @@ public class CreditCard {
     private int payment;
     private User user;
     private Account account;
+    private List<Invoice> invoices;
 
     public CreditCard(String name, String icon, BigDecimal limit, int closing, int payment, User user, Account account) {
         if (name == null || name.isEmpty()) {
@@ -129,5 +131,13 @@ public class CreditCard {
             throw new InvalidCreditCardDataException("A conta não pode ser nula");
         }
         this.account = account;
+    }
+
+    public List<Invoice> getInvoices() {
+        return invoices;
+    }
+
+    public void setInvoices(List<Invoice> invoices) {
+        this.invoices = invoices;
     }
 }
