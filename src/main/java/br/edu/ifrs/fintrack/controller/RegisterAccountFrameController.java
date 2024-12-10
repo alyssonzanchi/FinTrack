@@ -82,8 +82,8 @@ public class RegisterAccountFrameController {
                     setText(null);
                 } else {
                     imageView.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(item.getPath()))));
-                    imageView.setFitHeight(40);
-                    imageView.setFitWidth(40);
+                    imageView.setFitHeight(30);
+                    imageView.setFitWidth(30);
 
                     setGraphic(imageView);
                     setText(item.getName());

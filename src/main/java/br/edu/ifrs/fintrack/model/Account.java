@@ -4,6 +4,7 @@ import br.edu.ifrs.fintrack.exception.InvalidAccountDataException;
 import br.edu.ifrs.fintrack.exception.MissingRequiredFieldException;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class Account {
     private int id;
@@ -71,5 +72,29 @@ public class Account {
             throw new InvalidAccountDataException("Usuário não pode ser nulo");
         }
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return id == account.id && Objects.equals(name, account.name) && Objects.equals(balance, account.balance) && Objects.equals(icon, account.icon) && Objects.equals(user, account.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, balance, icon, user);
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", balance=" + balance +
+                ", icon='" + icon + '\'' +
+                ", user=" + user +
+                '}';
     }
 }
