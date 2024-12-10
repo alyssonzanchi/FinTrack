@@ -25,7 +25,7 @@ public class TransactionTest {
         account = new Account("Conta Teste", BigDecimal.valueOf(100), "icon.png", user);
         category = new Category("RECEITA", "Teste", "icon.png");
         creditCard = new CreditCard("Cartão Teste", "icon.png", BigDecimal.valueOf(5000), 10, 20, new User("user@test.com", "password123", "User Teste", LocalDate.of(1990, 1, 1), "image.png"), account);
-        invoice = new Invoice(creditCard, LocalDate.of(2024, 12, 9), LocalDate.of(2024, 12, 19), LocalDate.of(2024, 12, 30));
+        invoice = new Invoice(creditCard, LocalDate.of(2024, 12, 9), LocalDate.of(2024, 12, 19), LocalDate.of(2024, 12, 30), new BigDecimal(200), false);
         transaction = new Transaction("Transação Teste", "Receita", BigDecimal.valueOf(150), LocalDate.of(2024, 12, 9), "Descrição de teste", "Mensal", "Diária", "Semanal", 3, user, category, account, creditCard, invoice);
     }
 

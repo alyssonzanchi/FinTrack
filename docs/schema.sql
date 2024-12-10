@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS "Transactions";
+DROP TABLE IF EXISTS "Invoices";
 DROP TABLE IF EXISTS "Categories";
 DROP TABLE IF EXISTS "CreditCard";
 DROP TABLE IF EXISTS "Accounts";
@@ -41,14 +42,14 @@ CREATE TABLE "CreditCard" (
 
 CREATE TABLE "Invoices" (
     id SERIAL,
-    creditcard_id INT NOT NULL,
+    credit_card_id INT NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
     due_date DATE NOT NULL,
     total DECIMAL(10, 2) DEFAULT 0.00,
     paid BOOLEAN DEFAULT FALSE,
     CONSTRAINT "invoices_pk" PRIMARY KEY (id),
-    CONSTRAINT "fk_invoices_creditcard_id" FOREIGN KEY (creditcard_id) REFERENCES "CreditCard"(id) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT "fk_invoices_credit_card_id" FOREIGN KEY (credit_card_id) REFERENCES "CreditCard"(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE "Categories" (
@@ -79,7 +80,7 @@ CREATE TABLE "Transactions" (
     CONSTRAINT "fk_transactions_user_id_users" FOREIGN KEY (user_id) REFERENCES "Users"(id) ON DELETE NO ACTION ON UPDATE CASCADE,
     CONSTRAINT "fk_transactions_account_id_accounts" FOREIGN KEY (account_id) REFERENCES "Accounts"(id) ON DELETE NO ACTION ON UPDATE CASCADE,
     CONSTRAINT "fk_transactions_category_id_categories" FOREIGN KEY (category_id) REFERENCES "Categories"(id) ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT "fk_transactions_credit_card_id" FOREIGN KEY (credit_card_id) REFERENCES "CreditCards"(id) ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT "fk_transactions_credit_card_id" FOREIGN KEY (credit_card_id) REFERENCES "CreditCard"(id) ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT "fk_transactions_invoice_id" FOREIGN KEY (invoice_id) REFERENCES "Invoices"(id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 

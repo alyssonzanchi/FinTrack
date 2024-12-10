@@ -17,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CreditCardDAOTest {
     private AccountDAO accountDAO;
-    private UserDAO userDAO;
     private CreditCardDAO creditCardDAO;
     private User testUser;
     private Account testAccount;
@@ -25,7 +24,7 @@ public class CreditCardDAOTest {
     @BeforeEach
     void setUp() {
         accountDAO = new AccountDAO();
-        userDAO = new UserDAO();
+        UserDAO userDAO = new UserDAO();
         creditCardDAO = new CreditCardDAO();
         try (Connection con = ConnectionFactory.getConnection()) {
             Statement stmt = con.createStatement();
@@ -101,5 +100,23 @@ public class CreditCardDAOTest {
 
         List<CreditCard> creditCards = creditCardDAO.list(10, 0);
         assertEquals(2, creditCards.size(), "Deveriam ter sido retornados dois cartões de crédito.");
+    }
+
+    @Test
+    void testListByUser() {
+        Account account = new Account("Nubank", new BigDecimal("1500.00"), "Nubank", testUser);
+        accountDAO.insert(account);
+
+        CreditCard creditCard1 = new CreditCard("Nubank Gold", "nubank_gold.png", new BigDecimal("5000.00"), 15, 25, testUser, account);
+        CreditCard creditCard2 = new CreditCard("Nubank Platinum", "nubank_platinum.png", new BigDecimal("10000.00"), 10, 20, testUser, account);
+
+        creditCardDAO.insert(creditCard1);
+        creditCardDAO.insert(creditCard2);
+
+        List<CreditCard> creditCards = creditCardDAO.listByUser(testUser.getId());
+
+        assertEquals(2, creditCards.size(), "Deveriam ter sido retornados dois cartões de crédito.");
+        assertTrue(creditCards.stream().anyMatch(cc -> cc.getName().equals("Nubank Gold")), "O cartão 'Nubank Gold' deveria estar presente.");
+        assertTrue(creditCards.stream().anyMatch(cc -> cc.getName().equals("Nubank Platinum")), "O cartão 'Nubank Platinum' deveria estar presente.");
     }
 }

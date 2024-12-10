@@ -138,4 +138,32 @@ public class UserDAO implements DAO<User> {
             throw new DataAccessException("Erro ao buscar usuário: " + e.getMessage());
         }
     }
+
+    public User getByEmail(String email) {
+        String query = "SELECT * FROM \"Users\" WHERE email = ?";
+
+        try (Connection con = ConnectionFactory.getConnection()) {
+            var pstm = con.prepareStatement(query);
+            pstm.setString(1, email);
+
+            ResultSet rs = pstm.executeQuery();
+
+            if (rs.next()) {
+                User user = new User(
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("name"),
+                        rs.getDate("date_of_birth").toLocalDate(),
+                        rs.getString("image")
+                );
+                user.setId(rs.getInt("id"));
+
+                return user;
+            } else {
+                throw new EntityNotFoundException("Usuário com e-mail " + email + " não encontrado.");
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("Erro ao buscar usuário pelo e-mail: " + e.getMessage());
+        }
+    }
 }

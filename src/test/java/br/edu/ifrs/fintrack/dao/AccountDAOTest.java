@@ -17,13 +17,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AccountDAOTest {
     private AccountDAO accountDAO;
-    private UserDAO userDAO;
     private User testUser;
 
     @BeforeEach
     void setUp() {
         accountDAO = new AccountDAO();
-        userDAO = new UserDAO();
+        UserDAO userDAO = new UserDAO();
         try (Connection con = ConnectionFactory.getConnection()) {
             Statement stmt = con.createStatement();
             stmt.execute("TRUNCATE TABLE \"Accounts\" RESTART IDENTITY CASCADE");
@@ -95,5 +94,19 @@ public class AccountDAOTest {
 
         List<Account> accounts = accountDAO.list(10, 0);
         assertEquals(2, accounts.size(), "Deveriam ter sido retornadas duas contas.");
+    }
+
+    @Test
+    void testListByUser() {
+        Account account1 = new Account("Nubank", new BigDecimal("1500.00"), "Nubank", testUser);
+        Account account2 = new Account("Sicredi", new BigDecimal("2000.00"), "Sicredi", testUser);
+        accountDAO.insert(account1);
+        accountDAO.insert(account2);
+
+        List<Account> accounts = accountDAO.listByUser(testUser.getId());
+
+        assertEquals(2, accounts.size(), "Deveriam ter sido retornadas duas contas.");
+        assertTrue(accounts.stream().anyMatch(a -> a.getName().equals("Nubank")), "A conta 'Nubank' deveria estar presente.");
+        assertTrue(accounts.stream().anyMatch(a -> a.getName().equals("Sicredi")), "A conta 'Sicredi' deveria estar presente.");
     }
 }

@@ -144,9 +144,7 @@ public class AccountDAO implements DAO<Account> {
     }
 
     public List<Account> listByUser(int userId) {
-        String query = "SELECT DISTINCT a.* FROM \"Account\" a " +
-                "JOIN \"CreditCard\" cc ON a.id = cc.account_id " +
-                "WHERE cc.user_id = ?";
+        String query = "SELECT * FROM \"Accounts\" WHERE user_id = ?";
         List<Account> accounts = new ArrayList<>();
 
         try (Connection con = ConnectionFactory.getConnection()) {

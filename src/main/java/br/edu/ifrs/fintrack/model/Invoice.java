@@ -15,7 +15,7 @@ public class Invoice {
     private BigDecimal total;
     private boolean paid;
 
-    public Invoice(CreditCard creditCard, LocalDate startDate, LocalDate endDate, LocalDate dueDate) {
+    public Invoice(CreditCard creditCard, LocalDate startDate, LocalDate endDate, LocalDate dueDate, BigDecimal total, boolean paid) {
         if (creditCard == null) {
             throw new MissingInvoiceFieldException("creditCard");
         }
@@ -36,8 +36,8 @@ public class Invoice {
         this.startDate = startDate;
         this.endDate = endDate;
         this.dueDate = dueDate;
-        this.total = BigDecimal.ZERO;
-        this.paid = false;
+        this.total = total;
+        this.paid = paid;
     }
 
     public int getId() {

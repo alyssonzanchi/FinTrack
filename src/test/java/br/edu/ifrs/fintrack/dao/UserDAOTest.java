@@ -97,4 +97,21 @@ public class UserDAOTest {
         List<User> users = userDAO.list(10, 0);
         assertEquals(2, users.size(), "Deveriam ter sido retornados dois usuários.");
     }
+
+    @Test
+    void testGetByEmail_ExistingUser() {
+        User user = new User("email@example.com", "securePassword", "Email User", LocalDate.of(1990, 1, 1), "email_image.png");
+        userDAO.insert(user);
+
+        User retrievedUser = userDAO.getByEmail("email@example.com");
+        assertNotNull(retrievedUser, "O usuário deveria ter sido retornado com sucesso.");
+        assertEquals(user.getEmail(), retrievedUser.getEmail(), "O e-mail do usuário deveria coincidir.");
+        assertEquals(user.getName(), retrievedUser.getName(), "O nome do usuário deveria coincidir.");
+    }
+
+    @Test
+    void testGetByEmail_NonExistingUser() {
+        assertThrows(EntityNotFoundException.class, () -> userDAO.getByEmail("nonexistent@example.com"),
+                "Deveria lançar exceção ao buscar um usuário inexistente pelo e-mail.");
+    }
 }
