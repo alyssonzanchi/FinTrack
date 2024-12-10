@@ -190,4 +190,50 @@ public class TransactionDAO implements DAO<Transaction> {
             throw new DataAccessException("Erro ao buscar transação: " + e.getMessage());
         }
     }
+
+    public List<Transaction> listByUser(int userId) {
+        String query = "SELECT * FROM \"Transactions\" WHERE user_id = ?";
+        List<Transaction> transactions = new ArrayList<>();
+
+        try (Connection con = ConnectionFactory.getConnection()) {
+            var pstm = con.prepareStatement(query);
+            pstm.setInt(1, userId);
+
+            ResultSet rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                User user = userDAO.get(rs.getInt("user_id"));
+                Category category = categoryDAO.get(rs.getInt("category_id"));
+                Account account = accountDAO.get(rs.getInt("account_id"));
+                CreditCard creditCard = rs.getObject("credit_card_id") != null
+                        ? creditCardDAO.get(rs.getInt("credit_card_id")) : null;
+                Invoice invoice = rs.getObject("invoice_id") != null
+                        ? invoiceDAO.get(rs.getInt("invoice_id")) : null;
+
+                Transaction transaction = new Transaction(
+                        rs.getString("name"),
+                        rs.getString("type"),
+                        rs.getBigDecimal("amount"),
+                        rs.getDate("date").toLocalDate(),
+                        rs.getString("description"),
+                        rs.getString("recurring"),
+                        rs.getString("fixed_frequency"),
+                        rs.getString("installment_frequency"),
+                        rs.getObject("installment_count", Integer.class),
+                        user,
+                        category,
+                        account,
+                        creditCard,
+                        invoice
+                );
+                transaction.setId(rs.getInt("id"));
+
+                transactions.add(transaction);
+            }
+
+            return transactions;
+        } catch (SQLException e) {
+            throw new DataAccessException("Erro ao listar transações do usuário com id " + userId + ": " + e.getMessage());
+        }
+    }
 }

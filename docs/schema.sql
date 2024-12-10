@@ -87,7 +87,7 @@ CREATE TABLE "Transactions" (
 INSERT INTO "Categories" (type, name, icon) VALUES
 ('RECEITA', 'Pagamentos', '/images/categories/dolar.png'),
 ('RECEITA', 'Benefícios', '/images/categories/food.png'),
-('RECEITA', 'Fixa Mensal', '/images/categories/note.png'),
+('RECEITA', 'Salário', '/images/categories/dolar.png'),
 ('RECEITA', 'Outros', '/images/categories/other.png'),
 ('RECEITA', 'Comissão', '/images/categories/percent.png'),
 ('RECEITA', 'Rendimentos', '/images/categories/bank.png'),

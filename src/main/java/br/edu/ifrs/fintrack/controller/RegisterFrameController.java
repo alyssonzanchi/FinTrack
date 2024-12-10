@@ -95,7 +95,7 @@ public class RegisterFrameController {
             if (isInserted) {
                 LoggedUser.setUser(user);
                 showAlert(Alert.AlertType.INFORMATION, "Cadastro realizado", "Usuário cadastrado com sucesso!");
-                Main.loadView("HomeFrame");
+                Main.loadView("LoginFrame");
             } else {
                 showAlert(Alert.AlertType.ERROR, "Erro no cadastro", "Não foi possível cadastrar o usuário.");
             }
