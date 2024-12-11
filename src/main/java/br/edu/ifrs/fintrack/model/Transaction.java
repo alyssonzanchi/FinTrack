@@ -54,9 +54,6 @@ public class Transaction {
         if (amount == null) {
             throw new MissingTransactionFieldException("amount");
         }
-        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new InvalidTransactionDataException("O valor da transação não pode ser negativo.");
-        }
         if (dueDate == null) {
             throw new MissingTransactionFieldException("dueDate");
         }
@@ -117,9 +114,6 @@ public class Transaction {
     public void setAmount(BigDecimal amount) {
         if (amount == null) {
             throw new MissingTransactionFieldException("amount");
-        }
-        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new InvalidTransactionDataException("O valor da transação não pode ser negativo.");
         }
         this.amount = amount;
     }

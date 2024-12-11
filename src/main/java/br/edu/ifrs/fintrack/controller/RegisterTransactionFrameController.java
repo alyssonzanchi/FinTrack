@@ -14,9 +14,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class RegisterTransactionFrameController {
 
@@ -37,9 +37,6 @@ public class RegisterTransactionFrameController {
 
     @FXML
     public RadioButton radioIncome;
-
-    @FXML
-    private ToggleGroup recurring;
 
     @FXML
     public RadioButton radioFalse;
@@ -108,7 +105,7 @@ public class RegisterTransactionFrameController {
         lblName.setText(user.getName());
         lblEmail.setText(user.getEmail());
 
-        toggleGroupType.selectedToggleProperty().addListener((observable, oldToggle, newToggle) -> {
+        toggleGroupType.selectedToggleProperty().addListener((_, _, newToggle) -> {
                     if (newToggle != null) {
                         String selectedType = ((RadioButton) newToggle).getText();
 
@@ -116,34 +113,53 @@ public class RegisterTransactionFrameController {
 
                         List<Category> filteredCategories = allCategories.stream()
                                 .filter(category -> category.getType().equalsIgnoreCase(selectedType))
-                                .collect(Collectors.toList());
+                                .toList();
 
                         boxCategory.getItems().clear();
                         boxCategory.getItems().addAll(filteredCategories);
-                        boxCategory.setCellFactory(listView -> {
-                            return new ListCell<Category>() {
-                                private final ImageView imageView = new ImageView();
-                                @Override
-                                protected void updateItem(Category category, boolean empty) {
-                                    super.updateItem(category, empty);
-                                    if (empty || category == null) {
-                                        setText(null);
-                                        setGraphic(null);
-                                    } else {
-                                        imageView.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(category.getIcon()))));
-                                        imageView.setFitHeight(30);
-                                        imageView.setFitWidth(30);
+                        boxCategory.setCellFactory(_ -> new ListCell<>() {
+                            private final ImageView imageView = new ImageView();
 
-                                        setGraphic(imageView);
-                                        setText(category.getName());
-                                    }
+                            @Override
+                            protected void updateItem(Category category, boolean empty) {
+                                super.updateItem(category, empty);
+                                if (empty || category == null) {
+                                    setText(null);
+                                    setGraphic(null);
+                                } else {
+                                    imageView.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(category.getIcon()))));
+                                    imageView.setFitHeight(30);
+                                    imageView.setFitWidth(30);
+
+                                    setGraphic(imageView);
+                                    setText(category.getName());
                                 }
-                            };
+                            }
                         });
                     }
+
+                    boxCategory.setButtonCell(new ListCell<>() {
+                        private final ImageView imageView = new ImageView();
+
+                        @Override
+                        protected void updateItem(Category category, boolean empty) {
+                            super.updateItem(category, empty);
+                            if (empty || category == null) {
+                                setText(null);
+                                setGraphic(null);
+                            } else {
+                                imageView.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(category.getIcon()))));
+                                imageView.setFitHeight(30);
+                                imageView.setFitWidth(30);
+
+                                setGraphic(imageView);
+                                setText(category.getName());
+                            }
+                        }
+                    });
                 });
 
-        radioInstallment.setOnAction(event -> {
+        radioInstallment.setOnAction(_ -> {
             if (radioInstallment.isSelected()) {
                 boxFrequency.setDisable(false);
                 lblFrequency.setDisable(false);
@@ -154,7 +170,7 @@ public class RegisterTransactionFrameController {
             }
         });
 
-        radioFixed.setOnAction(event -> {
+        radioFixed.setOnAction(_ -> {
             if (radioFixed.isSelected()) {
                 boxFrequency.setDisable(false);
                 lblFrequency.setDisable(false);
@@ -165,7 +181,7 @@ public class RegisterTransactionFrameController {
             }
         });
 
-        checkPaid.setOnAction(event -> {
+        checkPaid.setOnAction(_ -> {
             if (checkPaid.isSelected()) {
                 pickPaymentDate.setDisable(false);
                 lblPaymentDate.setDisable(false);
@@ -248,8 +264,9 @@ public class RegisterTransactionFrameController {
 
     public void handleSaveTransaction() {
         User user = LoggedUser.getUser();
-        if(this.isEditing()) {
-            this.transaction.setName(this.lblName.getText());
+        if (this.isEditing()) {
+            // Edição de transação existente
+            this.transaction.setName(this.lblNameTransaction.getText());
             this.transaction.setAmount(new BigDecimal(this.lblAmount.getText()));
             this.transaction.setPaid(this.checkPaid.isSelected());
 
@@ -268,10 +285,10 @@ public class RegisterTransactionFrameController {
                 this.transaction.setRecurring("PARCELADA");
                 this.transaction.setInstallmentFrequency(this.boxFrequency.getValue());
                 this.transaction.setInstallmentNumber(
-                        this.lblNumber.getText().isEmpty() ? null : Integer.parseInt(this.lblNumber.getText())
+                        this.txtNumber.getText().isEmpty() ? null : Integer.parseInt(this.txtNumber.getText())
                 );
                 this.transaction.setInstallmentCount(
-                        this.lblCount.getText().isEmpty() ? null : Integer.parseInt(this.lblCount.getText())
+                        this.txtCount.getText().isEmpty() ? null : Integer.parseInt(this.txtCount.getText())
                 );
             }
 
@@ -283,37 +300,101 @@ public class RegisterTransactionFrameController {
 
             transactionDAO.update(this.transaction);
         } else {
+            // Criação de nova transação
             BigDecimal amount = new BigDecimal(this.lblAmount.getText());
             Account account = this.boxAccount.getValue();
             String type = this.radioIncome.isSelected() ? "RECEITA" : "DESPESA";
-
-            transaction.setName(this.lblNameTransaction.getText());
-            transaction.setAmount(amount);
-            transaction.setPaid(this.checkPaid.isSelected());
-            transaction.setType(type);
-            transaction.setDueDate(this.pickDueDate.getValue());
-            transaction.setPaymentDate(this.pickPaymentDate.getValue());
-            transaction.setCategory(this.boxCategory.getValue());
-            transaction.setAccount(account);
-            transaction.setUser(user);
+            String recurring = null;
+            String fixedFrequency = null;
+            String installmentFrequency = null;
+            Integer installmentNumber = null;
+            Integer installmentCount = null;
 
             if (this.radioFixed.isSelected()) {
-                transaction.setRecurring("FIXA");
-                transaction.setFixedFrequency(this.boxFrequency.getValue());
+                recurring = "FIXA";
+                fixedFrequency = this.boxFrequency.getValue();
             } else if (this.radioInstallment.isSelected()) {
-                transaction.setRecurring("PARCELADA");
-                transaction.setInstallmentFrequency(this.boxFrequency.getValue());
-                transaction.setInstallmentNumber(
-                        this.lblNumber.getText().isEmpty() ? null : Integer.parseInt(this.lblNumber.getText())
-                );
-                transaction.setInstallmentCount(
-                        this.lblCount.getText().isEmpty() ? null : Integer.parseInt(this.lblCount.getText())
-                );
-            } else {
-                transaction.setRecurring(null);
+                recurring = "PARCELADA";
+                installmentFrequency = this.boxFrequency.getValue();
+                installmentNumber = this.txtNumber.getText().isEmpty() ? null : Integer.parseInt(this.txtNumber.getText());
+                installmentCount = this.txtCount.getText().isEmpty() ? null : Integer.parseInt(this.txtCount.getText());
             }
 
-            transactionDAO.insert(transaction);
+            Transaction transaction = new Transaction(
+                    this.lblNameTransaction.getText(),
+                    type,
+                    amount,
+                    this.pickDueDate.getValue(),
+                    this.pickPaymentDate.getValue(),
+                    this.checkPaid.isSelected(),
+                    null,
+                    recurring,
+                    fixedFrequency,
+                    installmentFrequency,
+                    installmentCount,
+                    installmentNumber,
+                    user,
+                    this.boxCategory.getValue(),
+                    account,
+                    null,
+                    null
+            );
+
+            if (recurring == null) {
+                transactionDAO.insert(transaction);
+            } else if ("FIXA".equals(recurring)) {
+                // Inserções fixas
+                LocalDate dueDate = transaction.getDueDate();
+                for (int i = 0; i < 60; i++) {
+                    Transaction fixedTransaction = new Transaction(
+                            transaction.getName(),
+                            transaction.getType(),
+                            transaction.getAmount(),
+                            dueDate,
+                            transaction.getPaymentDate(),
+                            transaction.getPaid(),
+                            null,
+                            recurring,
+                            fixedFrequency,
+                            installmentFrequency,
+                            installmentCount,
+                            installmentNumber,
+                            transaction.getUser(),
+                            transaction.getCategory(),
+                            transaction.getAccount(),
+                            null,
+                            null
+                    );
+                    dueDate = dueDate.plusMonths(1); // Incrementa um mês a cada iteração
+                    transactionDAO.insert(fixedTransaction);
+                }
+            } else if ("PARCELADA".equals(recurring)) {
+                // Inserções parceladas
+                LocalDate dueDate = transaction.getDueDate();
+                for (int i = 1; i <= installmentCount; i++) {
+                    Transaction installmentTransaction = new Transaction(
+                            transaction.getName(),
+                            transaction.getType(),
+                            transaction.getAmount(),
+                            dueDate,
+                            transaction.getPaymentDate(),
+                            transaction.getPaid(),
+                            null,
+                            recurring,
+                            fixedFrequency,
+                            installmentFrequency,
+                            installmentCount,
+                            i, // Número da parcela
+                            transaction.getUser(),
+                            transaction.getCategory(),
+                            transaction.getAccount(),
+                            null,
+                            null
+                    );
+                    dueDate = dueDate.plusMonths(1); // Incrementa um mês a cada inserção
+                    transactionDAO.insert(installmentTransaction);
+                }
+            }
         }
 
         Main.loadView("TransactionsFrame");
@@ -337,13 +418,38 @@ public class RegisterTransactionFrameController {
             }
             if (transaction.getRecurring() == null) {
                 this.radioFalse.setSelected(true);
+                boxFrequency.setDisable(true);
+                lblFrequency.setDisable(true);
+                txtCount.setDisable(true);
+                lblCount.setDisable(true);
+                txtNumber.setDisable(true);
+                lblNumber.setDisable(true);
             } else if ("FIXA".equals(transaction.getRecurring())) {
                 this.radioFixed.setSelected(true);
+                boxFrequency.setDisable(false);
+                lblFrequency.setDisable(false);
+                txtCount.setDisable(true);
+                lblCount.setDisable(true);
+                txtNumber.setDisable(true);
+                lblNumber.setDisable(true);
             } else if ("PARCELADA".equals(transaction.getRecurring())) {
                 this.radioInstallment.setSelected(true);
+                boxFrequency.setDisable(false);
+                lblFrequency.setDisable(false);
+                txtCount.setDisable(false);
+                lblCount.setDisable(false);
+                txtNumber.setDisable(false);
+                lblNumber.setDisable(false);
             }
-            this.lblNumber.setText(transaction.getInstallmentNumber().toString());
-            this.lblCount.setText(transaction.getInstallmentCount().toString());
+
+            if (transaction.getInstallmentNumber() != null) {
+                this.lblNumber.setText(transaction.getInstallmentNumber().toString());
+            }
+
+            if (transaction.getInstallmentCount() != null) {
+                this.lblCount.setText(transaction.getInstallmentCount().toString());
+            }
+
             if (transaction.getFixedFrequency() != null) {
                 this.boxFrequency.setValue(transaction.getFixedFrequency());
             } else if (transaction.getInstallmentFrequency() != null) {

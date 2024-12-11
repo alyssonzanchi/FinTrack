@@ -20,11 +20,13 @@ import javafx.geometry.Pos;
 
 import java.math.BigDecimal;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.TextStyle;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class TransactionsFrameController implements Initializable {
 
@@ -57,7 +59,7 @@ public class TransactionsFrameController implements Initializable {
     private YearMonth currentMonth;
 
     private void loadTable() {
-        ObservableList<Transaction> transactions = FXCollections.observableArrayList(transactionDAO.listByUser(LoggedUser.getUser().getId()));
+        ObservableList<Transaction> transactions = FXCollections.observableArrayList(transactionDAO.listByUserAndDueDate(LoggedUser.getUser().getId(), currentMonth));
         this.tblList.setItems(transactions);
     }
 
@@ -71,8 +73,6 @@ public class TransactionsFrameController implements Initializable {
 
         currentMonth = YearMonth.now();
         updateMonthLabel();
-
-        this.loadTable();
 
         clmName.setCellValueFactory(new PropertyValueFactory<>("name"));
         clmAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
@@ -95,16 +95,11 @@ public class TransactionsFrameController implements Initializable {
 
         clmIcon.setCellValueFactory(cellData -> {
             Transaction transaction = cellData.getValue();
-            CategoryDAO categoryDAO = new CategoryDAO();
+            String iconPath = transaction.getPaid() ? "/images/confirm.png" : "/images/clock.png";
 
-            Category category = categoryDAO.get(transaction.getCategory().getId());
-
-            if (category != null) {
-                return new SimpleObjectProperty<>(new ImageView(
-                        new Image(Objects.requireNonNull(getClass().getResourceAsStream(category.getIcon())))
-                ));
-            }
-            return new SimpleObjectProperty<>(null);
+            return new SimpleObjectProperty<>(new ImageView(
+                    new Image(Objects.requireNonNull(getClass().getResourceAsStream(iconPath)))
+            ));
         });
 
         clmIcon.setCellFactory(_ -> new TableCell<>() {
@@ -131,8 +126,15 @@ public class TransactionsFrameController implements Initializable {
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    setText("R$ " + item);
-                    setStyle("-fx-text-fill: black; -fx-font-size: 18px;");
+                    String amountText;
+                    if (item.compareTo(BigDecimal.ZERO) < 0) {
+                        amountText = "R$ " + item.negate();
+                        setStyle("-fx-text-fill: red; -fx-font-size: 18px;");
+                    } else {
+                        amountText = "R$ " + item;
+                        setStyle("-fx-text-fill: green; -fx-font-size: 18px;");
+                    }
+                    setText(amountText);
                 }
             }
         });
@@ -213,11 +215,13 @@ public class TransactionsFrameController implements Initializable {
     public void handleBackMonth() {
         currentMonth = currentMonth.minusMonths(1);
         updateMonthLabel();
+        loadTable();
     }
 
     public void handleNextMonth() {
         currentMonth = currentMonth.plusMonths(1);
         updateMonthLabel();
+        loadTable();
     }
 
     private void updateMonthLabel() {
@@ -236,6 +240,8 @@ public class TransactionsFrameController implements Initializable {
             int yearSuffix = labelYear % 100;
             lblMonth.setText(shortMonthName + "/" + yearSuffix);
         }
+
+        loadTable();
     }
 
     private String capitalizeFirstLetter(String input) {

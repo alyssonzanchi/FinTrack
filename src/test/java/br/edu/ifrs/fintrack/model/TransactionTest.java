@@ -59,13 +59,6 @@ public class TransactionTest {
     }
 
     @Test
-    void testTransactionCreationWithNegativeAmount() {
-        Exception exception = assertThrows(InvalidTransactionDataException.class, () ->
-                new Transaction("Transação Teste", "Receita", BigDecimal.valueOf(-150), LocalDate.of(2024, 12, 9), null, false, "Descrição de teste", "Mensal", "Diária", "Semanal", 3, 3, user, category, account, creditCard, invoice));
-        assertEquals("Dados inválidos para criação da transação: O valor da transação não pode ser negativo.", exception.getMessage());
-    }
-
-    @Test
     void testSetDescriptionWithValidData() {
         creditCard.setName("Novo Cartão");
         assertEquals("Novo Cartão", creditCard.getName());
