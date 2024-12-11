@@ -26,12 +26,12 @@ public class TransactionTest {
         category = new Category("RECEITA", "Teste", "icon.png");
         creditCard = new CreditCard("Cartão Teste", "icon.png", BigDecimal.valueOf(5000), 10, 20, new User("user@test.com", "password123", "User Teste", LocalDate.of(1990, 1, 1), "image.png"), account);
         invoice = new Invoice(creditCard, LocalDate.of(2024, 12, 9), LocalDate.of(2024, 12, 19), LocalDate.of(2024, 12, 30), new BigDecimal(200), false);
-        transaction = new Transaction("Transação Teste", "Receita", BigDecimal.valueOf(150), LocalDate.of(2024, 12, 9), "Descrição de teste", "Mensal", "Diária", "Semanal", 3, user, category, account, creditCard, invoice);
+        transaction = new Transaction("Transação Teste", "Receita", BigDecimal.valueOf(150), LocalDate.of(2024, 12, 9), null, false, "Descrição de teste", "Mensal", "Diária", "Semanal", 3, 3, user, category, account, creditCard, invoice);
     }
 
     @Test
     void testTransactionCreationWithValidData() {
-        assertEquals(LocalDate.of(2024, 12, 9), transaction.getDate());
+        assertEquals(LocalDate.of(2024, 12, 9), transaction.getDueDate());
         assertEquals(BigDecimal.valueOf(150), transaction.getAmount());
         assertEquals("Descrição de teste", transaction.getDescription());
         assertEquals(creditCard, transaction.getCreditCard());
@@ -40,28 +40,28 @@ public class TransactionTest {
     @Test
     void testTransactionCreationWithEmptyDescription() {
         Exception exception = assertThrows(MissingTransactionFieldException.class, () ->
-                new Transaction(null, "RECEITA", BigDecimal.valueOf(150), LocalDate.of(2024, 12, 9), "Descrição de teste", "Mensal", "Diária", "Semanal", 3, user, category, account, creditCard, invoice));
+                new Transaction(null, "RECEITA", BigDecimal.valueOf(150), LocalDate.of(2024, 12, 9), null, false, "Descrição de teste", "Mensal", "Diária", "Semanal", 3, 3, user, category, account, creditCard, invoice));
         assertEquals("Campo obrigatório ausente: name", exception.getMessage());
     }
 
     @Test
     void testTransactionCreationWithNullDate() {
         Exception exception = assertThrows(MissingTransactionFieldException.class, () ->
-                new Transaction("Transação Teste", "RECEITA", BigDecimal.valueOf(150), null, "Descrição de teste", "Mensal", "Diária", "Semanal", 3, user, category, account, creditCard, invoice));
-        assertEquals("Campo obrigatório ausente: date", exception.getMessage());
+                new Transaction("Transação Teste", "RECEITA", BigDecimal.valueOf(150), null, null, false, "Descrição de teste", "Mensal", "Diária", "Semanal", 3, 3, user, category, account, creditCard, invoice));
+        assertEquals("Campo obrigatório ausente: dueDate", exception.getMessage());
     }
 
     @Test
     void testTransactionCreationWithNullAmount() {
         Exception exception = assertThrows(MissingTransactionFieldException.class, () ->
-                new Transaction("Transação Teste", "Receita", null, LocalDate.of(2024, 12, 9), "Descrição de teste", "Mensal", "Diária", "Semanal", 3, user, category, account, creditCard, invoice));
+                new Transaction("Transação Teste", "Receita", null, LocalDate.of(2024, 12, 9), null, false, "Descrição de teste", "Mensal", "Diária", "Semanal", 3, 3, user, category, account, creditCard, invoice));
         assertEquals("Campo obrigatório ausente: amount", exception.getMessage());
     }
 
     @Test
     void testTransactionCreationWithNegativeAmount() {
         Exception exception = assertThrows(InvalidTransactionDataException.class, () ->
-                new Transaction("Transação Teste", "Receita", BigDecimal.valueOf(-150), LocalDate.of(2024, 12, 9), "Descrição de teste", "Mensal", "Diária", "Semanal", 3, user, category, account, creditCard, invoice));
+                new Transaction("Transação Teste", "Receita", BigDecimal.valueOf(-150), LocalDate.of(2024, 12, 9), null, false, "Descrição de teste", "Mensal", "Diária", "Semanal", 3, 3, user, category, account, creditCard, invoice));
         assertEquals("Dados inválidos para criação da transação: O valor da transação não pode ser negativo.", exception.getMessage());
     }
 

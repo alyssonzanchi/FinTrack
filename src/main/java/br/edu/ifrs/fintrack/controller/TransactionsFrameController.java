@@ -1,7 +1,6 @@
 package br.edu.ifrs.fintrack.controller;
 
 import br.edu.ifrs.fintrack.Main;
-import br.edu.ifrs.fintrack.dao.AccountDAO;
 import br.edu.ifrs.fintrack.dao.CategoryDAO;
 import br.edu.ifrs.fintrack.dao.TransactionDAO;
 import br.edu.ifrs.fintrack.model.Category;
@@ -11,7 +10,6 @@ import br.edu.ifrs.fintrack.util.LoggedUser;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -22,6 +20,9 @@ import javafx.geometry.Pos;
 
 import java.math.BigDecimal;
 import java.net.URL;
+import java.time.YearMonth;
+import java.time.format.TextStyle;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -53,6 +54,8 @@ public class TransactionsFrameController implements Initializable {
 
     private final TransactionDAO transactionDAO = new TransactionDAO();
 
+    private YearMonth currentMonth;
+
     private void loadTable() {
         ObservableList<Transaction> transactions = FXCollections.observableArrayList(transactionDAO.listByUser(LoggedUser.getUser().getId()));
         this.tblList.setItems(transactions);
@@ -65,6 +68,9 @@ public class TransactionsFrameController implements Initializable {
         profileImageView.setImage(profileImage);
         lblName.setText(user.getName());
         lblEmail.setText(user.getEmail());
+
+        currentMonth = YearMonth.now();
+        updateMonthLabel();
 
         this.loadTable();
 
@@ -168,7 +174,7 @@ public class TransactionsFrameController implements Initializable {
     }
 
     public void handleNewCard() {
-        Main.loadView("RegisterCardFrame");
+        Main.loadView("RegisterTransactionFrame");
     }
 
     public void handleEditTransaction() {
@@ -205,8 +211,37 @@ public class TransactionsFrameController implements Initializable {
     }
 
     public void handleBackMonth() {
+        currentMonth = currentMonth.minusMonths(1);
+        updateMonthLabel();
     }
 
     public void handleNextMonth() {
+        currentMonth = currentMonth.plusMonths(1);
+        updateMonthLabel();
+    }
+
+    private void updateMonthLabel() {
+        YearMonth now = YearMonth.now();
+        int currentYear = now.getYear();
+        int labelYear = currentMonth.getYear();
+
+
+        if (labelYear == currentYear) {
+            String monthName = capitalizeFirstLetter(currentMonth.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault()));
+            lblMonth.setText(monthName);
+        } else {
+            String shortMonthName = capitalizeFirstLetter(
+                    currentMonth.getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault())
+            );
+            int yearSuffix = labelYear % 100;
+            lblMonth.setText(shortMonthName + "/" + yearSuffix);
+        }
+    }
+
+    private String capitalizeFirstLetter(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+        return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
     }
 }

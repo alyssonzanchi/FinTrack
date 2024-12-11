@@ -12,12 +12,15 @@ public class Transaction {
     private String name;
     private String type;
     private BigDecimal amount;
-    private LocalDate date;
+    private LocalDate dueDate;
+    private LocalDate paymentDate;
+    private boolean paid;
     private String description;
     private String recurring;
     private String fixedFrequency;
     private String installmentFrequency;
     private Integer installmentCount;
+    private Integer installmentNumber;
     private User user;
     private Category category;
     private Account account;
@@ -28,12 +31,15 @@ public class Transaction {
             String name,
             String type,
             BigDecimal amount,
-            LocalDate date,
+            LocalDate dueDate,
+            LocalDate paymentDate,
+            boolean paid,
             String description,
             String recurring,
             String fixedFrequency,
             String installmentFrequency,
             Integer installmentCount,
+            Integer installmentNumber,
             User user,
             Category category,
             Account account,
@@ -51,19 +57,22 @@ public class Transaction {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new InvalidTransactionDataException("O valor da transação não pode ser negativo.");
         }
-        if (date == null) {
-            throw new MissingTransactionFieldException("date");
+        if (dueDate == null) {
+            throw new MissingTransactionFieldException("dueDate");
         }
 
         this.name = name;
         this.type = type;
         this.amount = amount;
-        this.date = date;
+        this.dueDate = dueDate;
+        this.paymentDate = paymentDate;
+        this.paid = paid;
         this.description = description;
         this.recurring = recurring;
         this.fixedFrequency = fixedFrequency;
         this.installmentFrequency = installmentFrequency;
         this.installmentCount = installmentCount;
+        this.installmentNumber = installmentNumber;
         this.user = user;
         this.category = category;
         this.account = account;
@@ -115,15 +124,31 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getDueDate() {
+        return dueDate;
     }
 
-    public void setDate(LocalDate date) {
-        if (date == null) {
-            throw new MissingTransactionFieldException("date");
+    public void setDueDate(LocalDate dueDate) {
+        if (dueDate == null) {
+            throw new MissingTransactionFieldException("dueDate");
         }
-        this.date = date;
+        this.dueDate = dueDate;
+    }
+
+    public LocalDate getPaymentDate() {
+        return paymentDate;
+    }
+
+    public void setPaymentDate(LocalDate paymentDate) {
+        this.paymentDate = paymentDate;
+    }
+
+    public boolean getPaid() {
+        return paid;
+    }
+
+    public void setPaid(boolean paid) {
+        this.paid = paid;
     }
 
     public String getDescription() {
@@ -164,6 +189,14 @@ public class Transaction {
 
     public void setInstallmentCount(Integer installmentCount) {
         this.installmentCount = installmentCount;
+    }
+
+    public Integer getInstallmentNumber() {
+        return installmentNumber;
+    }
+
+    public void setInstallmentNumber(Integer installmentNumber) {
+        this.installmentNumber = installmentNumber;
     }
 
     public Category getCategory() {
@@ -211,12 +244,12 @@ public class Transaction {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Transaction that = (Transaction) o;
-        return id == that.id && Objects.equals(type, that.type) && Objects.equals(amount, that.amount) && Objects.equals(date, that.date) && Objects.equals(description, that.description) && Objects.equals(recurring, that.recurring) && Objects.equals(fixedFrequency, that.fixedFrequency) && Objects.equals(installmentFrequency, that.installmentFrequency) && Objects.equals(installmentCount, that.installmentCount) && Objects.equals(category, that.category) && Objects.equals(account, that.account) && Objects.equals(creditCard, that.creditCard) && Objects.equals(invoice, that.invoice);
+        return id == that.id && Objects.equals(type, that.type) && Objects.equals(amount, that.amount) && Objects.equals(dueDate, that.dueDate) && Objects.equals(paymentDate, that.paymentDate) && Objects.equals(paid, that.paid) && Objects.equals(description, that.description) && Objects.equals(recurring, that.recurring) && Objects.equals(fixedFrequency, that.fixedFrequency) && Objects.equals(installmentFrequency, that.installmentFrequency) && Objects.equals(installmentCount, that.installmentCount) && Objects.equals(category, that.category) && Objects.equals(account, that.account) && Objects.equals(creditCard, that.creditCard) && Objects.equals(invoice, that.invoice);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, type, amount, date, description, recurring, fixedFrequency, installmentFrequency, installmentCount, category, account, creditCard, invoice);
+        return Objects.hash(id, type, amount, dueDate, paymentDate, paid, description, recurring, fixedFrequency, installmentFrequency, installmentCount, category, account, creditCard, invoice);
     }
 
     @Override
@@ -225,7 +258,9 @@ public class Transaction {
                 "id=" + id +
                 ", type='" + type + '\'' +
                 ", amount=" + amount +
-                ", date=" + date +
+                ", dueDate=" + dueDate +
+                ", paymentDate=" + paymentDate +
+                ", paid=" + paid +
                 ", description='" + description + '\'' +
                 ", recurring='" + recurring + '\'' +
                 ", fixedFrequency='" + fixedFrequency + '\'' +

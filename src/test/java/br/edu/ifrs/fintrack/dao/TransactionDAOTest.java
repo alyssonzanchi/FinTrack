@@ -54,7 +54,7 @@ public class TransactionDAOTest {
         String name = "Compra Mercado";
         String type = "DESPESA";
         BigDecimal amount = new BigDecimal("150.50");
-        LocalDate date = LocalDate.of(2024, 12, 10);
+        LocalDate dueDate = LocalDate.of(2024, 12, 10);
         String description = "Compra no supermercado";
         User user = testUser;
         Category category = testCategory;
@@ -64,8 +64,11 @@ public class TransactionDAOTest {
                 name,
                 type,
                 amount,
-                date,
+                dueDate,
+                null,
+                false,
                 description,
+                null,
                 null,
                 null,
                 null,
@@ -91,7 +94,7 @@ public class TransactionDAOTest {
         String name = "Compra Mercado";
         String type = "DESPESA";
         BigDecimal amount = new BigDecimal("150.50");
-        LocalDate date = LocalDate.of(2024, 12, 10);
+        LocalDate dueDate = LocalDate.of(2024, 12, 10);
         String description = "Compra no supermercado";
         User user = testUser;
         Category category = testCategory;
@@ -101,8 +104,11 @@ public class TransactionDAOTest {
                 name,
                 type,
                 amount,
-                date,
+                dueDate,
+                null,
+                false,
                 description,
+                null,
                 null,
                 null,
                 null,
@@ -131,7 +137,7 @@ public class TransactionDAOTest {
         String name = "Compra Mercado";
         String type = "DESPESA";
         BigDecimal amount = new BigDecimal("150.50");
-        LocalDate date = LocalDate.of(2024, 12, 10);
+        LocalDate dueDate = LocalDate.of(2024, 12, 10);
         String description = "Compra no supermercado";
         User user = testUser;
         Category category = testCategory;
@@ -141,8 +147,11 @@ public class TransactionDAOTest {
                 name,
                 type,
                 amount,
-                date,
+                dueDate,
+                null,
+                false,
                 description,
+                null,
                 null,
                 null,
                 null,
@@ -168,7 +177,7 @@ public class TransactionDAOTest {
         String name = "Compra Mercado";
         String type = "DESPESA";
         BigDecimal amount = new BigDecimal("150.50");
-        LocalDate date = LocalDate.of(2024, 12, 10);
+        LocalDate dueDate = LocalDate.of(2024, 12, 10);
         String description = "Compra no supermercado";
         User user = testUser;
         Category category = testCategory;
@@ -178,8 +187,11 @@ public class TransactionDAOTest {
                 name,
                 type,
                 amount,
-                date,
+                dueDate,
+                null,
+                false,
                 description,
+                null,
                 null,
                 null,
                 null,
@@ -201,13 +213,13 @@ public class TransactionDAOTest {
         String name1 = "Compra Mercado";
         String type1 = "DESPESA";
         BigDecimal amount1 = new BigDecimal("150.50");
-        LocalDate date1 = LocalDate.of(2024, 12, 10);
+        LocalDate dueDate1 = LocalDate.of(2024, 12, 10);
         String description1 = "Compra no supermercado";
 
         String name2 = "Aluguel";
         String type2 = "DESPESA";
         BigDecimal amount2 = new BigDecimal("800.00");
-        LocalDate date2 = LocalDate.of(2024, 12, 5);
+        LocalDate dueDate2 = LocalDate.of(2024, 12, 5);
         String description2 = "Pagamento do aluguel";
         String recurring2 = "FIXA";
         String fixedFrequency2 = "Mensal";
@@ -216,8 +228,11 @@ public class TransactionDAOTest {
                 name1,
                 type1,
                 amount1,
-                date1,
+                dueDate1,
+                null,
+                false,
                 description1,
+                null,
                 null,
                 null,
                 null,
@@ -233,10 +248,13 @@ public class TransactionDAOTest {
                 name2,
                 type2,
                 amount2,
-                date2,
+                dueDate2,
+                null,
+                false,
                 description2,
                 recurring2,
                 fixedFrequency2,
+                null,
                 null,
                 null,
                 testUser,

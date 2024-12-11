@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifrs.fintrack.controller.RegisterTransactionFrameController">
+    <SplitPane dividerPositions="0.3659147869674185" prefHeight="600.0" prefWidth="800.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+            <VBox prefHeight="527.0" prefWidth="289.0" spacing="16.0" style="-fx-background-color: #2E7D32;">
+                <padding>
+                    <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+                </padding>
+                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleDashboard" style="-fx-background-color: #4CAF50;" text="RESUMO" textFill="WHITE">
+                    <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="DASHBOARD" size="24" wrappingWidth="30.0" />
+                    </graphic>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleAccounts" style="-fx-background-color: #4CAF50;" text="CONTAS" textFill="WHITE">
+                    <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="BANK" size="24" wrappingWidth="30.0">
+                            <font>
+                                <Font size="24.0" />
+                            </font>
+                        </FontAwesomeIconView>
+                    </graphic>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleTransactions" style="-fx-background-color: #4CAF50;" text="TRANSAÇÕES" textFill="WHITE">
+                    <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="MONEY" size="24" wrappingWidth="30.0">
+                            <font>
+                                <Font size="24.0" />
+                            </font>
+                        </FontAwesomeIconView>
+                    </graphic>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleCards" style="-fx-background-color: #4CAF50;" text="CARTÕES DE CRÉDITO" textFill="WHITE">
+                    <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="CC_VISA" size="24" wrappingWidth="35.0" />
+                    </graphic>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleCategories" style="-fx-background-color: #4CAF50;" text="CATEGORIAS" textFill="WHITE">
+                    <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="TAGS" size="24" wrappingWidth="30.0" />
+                    </graphic>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+            </VBox>
+            <Button layoutY="515.0" mnemonicParsing="false" prefHeight="84.0" prefWidth="235.0" style="-fx-background-color: #2E7D32; -fx-border-width: 0;" text="Button">
+                <graphic>
+                    <HBox alignment="BOTTOM_LEFT" prefHeight="82.0" prefWidth="285.0" style="-fx-background-color: #2E7D32;">
+                        <padding>
+                            <Insets bottom="16.0" top="16.0" />
+                        </padding>
+                        <cursor>
+                            <Cursor fx:constant="HAND" />
+                        </cursor>
+                        <ImageView fx:id="profileImageView" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../../../../../images/profile_images/user.png" />
+                        </ImageView>
+                        <VBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="215.0" spacing="5.0">
+                            <HBox.margin>
+                                <Insets left="5.0" />
+                            </HBox.margin>
+                            <Label fx:id="lblName" prefHeight="16.0" prefWidth="166.0" style="-fx-text-fill: #ffffff;" textFill="WHITE" />
+                            <Label fx:id="lblEmail" style="-fx-text-fill: #ffffff;" textFill="WHITE" />
+                        </VBox>
+                    </HBox>
+                </graphic>
+            </Button>
+        </AnchorPane>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="519.0" style="-fx-background-color: #ffffff;">
+            <VBox layoutX="52.0" layoutY="54.0" prefHeight="472.0" prefWidth="400.0" spacing="10.0" style="-fx-background-color: #ffffff; -fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #000000;">
+                <padding>
+                    <Insets bottom="15.0" top="30.0" />
+                </padding>
+                <HBox alignment="CENTER" prefHeight="65.0" prefWidth="398.0" spacing="10.0">
+                    <RadioButton fx:id="radioIncome" mnemonicParsing="false" text="Receita">
+                        <font>
+                            <Font size="16.0"/>
+                        </font>
+                        <toggleGroup>
+                            <ToggleGroup fx:id="toggleGroupType"/>
+                        </toggleGroup>
+                    </RadioButton>
+                    <RadioButton fx:id="radioExpense" mnemonicParsing="false" text="Despesa" toggleGroup="$toggleGroupType">
+                        <font>
+                            <Font size="16.0"/>
+                        </font>
+                        <HBox.margin>
+                            <Insets left="60.0"/>
+                        </HBox.margin>
+                    </RadioButton>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="65.0" prefWidth="398.0" spacing="10.0">
+                    <Label text="Nome">
+                        <font>
+                            <Font size="16.0" />
+                        </font>
+                    </Label>
+                    <TextField fx:id="lblNameTransaction" prefHeight="30.0" prefWidth="211.0">
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                    </TextField>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="65.0" prefWidth="398.0" spacing="10.0">
+                    <Label text="Valor">
+                        <font>
+                            <Font size="16.0" />
+                        </font>
+                    </Label>
+                    <TextField fx:id="lblAmount" prefHeight="30.0" prefWidth="112.0">
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                    </TextField>
+               <CheckBox fx:id="checkPaid" mnemonicParsing="false" text="Efetivada">
+                  <font>
+                     <Font size="16.0" />
+                  </font>
+                  <HBox.margin>
+                     <Insets left="40.0" />
+                  </HBox.margin>
+               </CheckBox>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="65.0" prefWidth="398.0" spacing="30.0">
+                    <RadioButton fx:id="radioFalse" mnemonicParsing="false" text="Não recorrente">
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                  <toggleGroup>
+                     <ToggleGroup fx:id="recurring" />
+                  </toggleGroup>
+                    </RadioButton>
+                    <RadioButton fx:id="radioInstallment" mnemonicParsing="false" text="Parcelada" toggleGroup="$recurring">
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                    </RadioButton>
+                    <RadioButton fx:id="radioFixed" mnemonicParsing="false" text="Fixa" toggleGroup="$recurring">
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                    </RadioButton>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="65.0" prefWidth="398.0" spacing="10.0">
+                    <Label fx:id="lblNumber" disable="true" text="Parcela inicial">
+                        <font>
+                            <Font size="16.0" />
+                        </font>
+                    </Label>
+                    <TextField fx:id="txtNumber" disable="true" prefHeight="30.0" prefWidth="50.0">
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                    </TextField>
+                    <Label fx:id="lblCount" disable="true" text="Quantidade">
+                        <font>
+                            <Font size="16.0" />
+                        </font>
+                        <HBox.margin>
+                            <Insets left="30.0" />
+                        </HBox.margin>
+                    </Label>
+                    <TextField fx:id="txtCount" disable="true" prefHeight="30.0" prefWidth="50.0">
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                    </TextField>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="65.0" prefWidth="398.0" spacing="10.0">
+                    <Label fx:id="lblFrequency" disable="true" text="Periodicidade">
+                        <font>
+                            <Font size="16.0" />
+                        </font>
+                    </Label>
+                    <ComboBox fx:id="boxFrequency" disable="true" prefWidth="150.0" />
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="65.0" prefWidth="398.0" spacing="10.0">
+                    <Label text="Data vencimento">
+                        <font>
+                            <Font size="16.0" />
+                        </font>
+                    </Label>
+                    <DatePicker fx:id="pickDueDate" />
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="65.0" prefWidth="398.0" spacing="10.0">
+                    <Label text="Categoria">
+                        <font>
+                            <Font size="16.0" />
+                        </font>
+                    </Label>
+                    <ComboBox fx:id="boxCategory" prefWidth="150.0" />
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="65.0" prefWidth="398.0" spacing="10.0">
+                    <Label text="Conta">
+                        <font>
+                            <Font size="16.0" />
+                        </font>
+                    </Label>
+                    <ComboBox fx:id="boxAccount" prefHeight="25.0" prefWidth="207.0" />
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="65.0" prefWidth="398.0" spacing="10.0">
+                    <Label fx:id="lblPaymentDate" disable="true" text="Data efetivação">
+                        <font>
+                            <Font size="16.0" />
+                        </font>
+                    </Label>
+                    <DatePicker fx:id="pickPaymentDate" disable="true" />
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                    <Button mnemonicParsing="false" onAction="#handleBackPage" prefWidth="100.0" style="-fx-background-color: #757575; -fx-background-radius: 10; -fx-padding: 10;" text="VOLTAR" textFill="WHITE">
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                        <cursor>
+                            <Cursor fx:constant="HAND" />
+                        </cursor>
+                    </Button>
+                    <Button mnemonicParsing="false" onAction="#handleSaveTransaction" prefWidth="100.0" style="-fx-background-color: #4CAF50; -fx-background-radius: 10; -fx-padding: 10;" text="SALVAR" textFill="WHITE">
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                        <cursor>
+                            <Cursor fx:constant="HAND" />
+                        </cursor>
+                    </Button>
+                </HBox>
+            </VBox>
+        </AnchorPane>
+    </SplitPane>
+</AnchorPane>
